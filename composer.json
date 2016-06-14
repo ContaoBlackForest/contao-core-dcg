@@ -1,0 +1,54 @@
+{
+  "name": "contaoblackforest/contao-core-dcg",
+  "description": "Contao Core DC General for Contao OpenSource CMS",
+  "keywords": [
+    "contao"
+  ],
+  "type": "contao-module",
+  "license": "LGPL-3.0+",
+  "authors": [
+    {
+      "name": "Sven Baumann",
+      "email": "baumann.sv@gmail.com",
+      "homepage": "https://github.com/ContaoBlackforest/contao-core-dcg",
+      "role": "Developer"
+    },
+    {
+      "name": "Dominik Tomasi",
+      "email": "dominik.tomasi@gmail.com",
+      "homepage": "https://github.com/ContaoBlackforest/contao-core-dcg",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "baumann.sv@gmail.com",
+    "issues": "https://github.com/ContaoBlackforest/contao-core-dcg/issues",
+    "wiki": "https://github.com/ContaoBlackforest/contao-core-dcg/wiki",
+    "irc": "irc://irc.freenode.org/contao.dev",
+    "source": "https://github.com/ContaoBlackforest/contao-core-dcg"
+  },
+  "require": {
+    "php": ">=5.3",
+    "contao/core": ">=3.2-dev,<4-dev",
+    "contao-community-alliance/composer-plugin": "~2.0",
+    "contao-community-alliance/dc-general": "~2.0"
+  },
+  "require-dev": {},
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "ContaoBlackforest\\Contao\\Core\\DcGeneral\\": "src/"
+    }
+  },
+  "extra": {
+    "contao": {
+      "sources": {
+        "contao": "system/modules/core-dcg"
+      }
+    },
+    "branch-alias": {
+      "dev-develop": "1.0.x-dev"
+    }
+  }
+}
