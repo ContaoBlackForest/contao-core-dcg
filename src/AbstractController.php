@@ -26,7 +26,7 @@ abstract class AbstractController implements ControllerInterface
     /**
      * Initialize the contao core module to dc general
      *
-     * @param $dataProvider | the dca name (e.g. tl_article)
+     * @param $dataProvider | string the dca name (e.g. tl_article)
      *
      * @return mixed
      */
@@ -56,7 +56,7 @@ abstract class AbstractController implements ControllerInterface
     /**
      * Change the data container to dc general if this data provider permitted
      *
-     * @param $dataProvider
+     * @param $dataProvider | string the data provider (e.g. tl_article)
      */
     protected function changeDataContainerDriver($dataProvider)
     {
