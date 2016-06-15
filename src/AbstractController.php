@@ -64,6 +64,20 @@ abstract class AbstractController implements ControllerInterface
             return;
         }
 
+        $this->replaceDataContainerDriver($dataProvider);
+    }
+
+    /**
+     * Replace the data container driver
+     *
+     * @param $dataProvider | string the data provider (e.g. tl_article)
+     */
+    protected function replaceDataContainerDriver($dataProvider)
+    {
+        if ($GLOBALS['TL_DCA'][$dataProvider]['config']['dataContainer'] === 'General') {
+            return;
+        }
+
         $GLOBALS['TL_DCA'][$dataProvider]['config']['dataContainer'] = 'General';
     }
 }
