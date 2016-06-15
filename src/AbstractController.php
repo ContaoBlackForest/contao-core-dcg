@@ -36,7 +36,7 @@ abstract class AbstractController implements ControllerInterface
             return;
         }
 
-        $this->changeDataContainerDriver($dataProvider);
+        $this->changeDataContainerToDcGeneral($dataProvider);
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class AbstractController implements ControllerInterface
      *
      * @param $dataProvider | string the data provider (e.g. tl_article)
      */
-    protected function changeDataContainerDriver($dataProvider)
+    protected function changeDataContainerToDcGeneral($dataProvider)
     {
         if (!in_array($dataProvider, $this->getPermittedDataProvider())) {
             return;
