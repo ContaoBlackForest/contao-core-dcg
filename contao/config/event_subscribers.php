@@ -13,7 +13,9 @@
  */
 
 use ContaoBlackForest\Contao\Core\DcGeneral\Builder\DataDefinitionsBuilder;
+use ContaoBlackForest\Contao\Core\DcGeneral\Controller\ActionController;
 
 return array(
+    new ActionController(),
     new DataDefinitionsBuilder()
 );

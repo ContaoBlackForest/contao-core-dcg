@@ -35,4 +35,12 @@ interface ControllerInterface
      * @return array
      */
     public function getPermittedDataProvider();
+
+    /**
+     * This returns toggle operation there have inverse function.
+     * You must define the data provider, and there the operation for inverse.
+     * 
+     * @return array
+     */
+    public function getInverseToggleOperation();
 }

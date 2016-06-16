@@ -40,4 +40,18 @@ class NewsController extends AbstractController implements ControllerInterface
             'tl_content'
         );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getInverseToggleOperation()
+    {
+        return array(
+            'tl_content' => array(
+                'toggle' => array(
+                    'property' => 'invisible'
+                )
+            )
+        );
+    }
 }

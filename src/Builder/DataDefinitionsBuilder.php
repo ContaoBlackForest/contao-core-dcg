@@ -17,6 +17,7 @@ namespace ContaoBlackForest\Contao\Core\DcGeneral\Builder;
 
 use ContaoBlackForest\Contao\Core\DcGeneral\AbstractController;
 use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2BackendViewDefinition;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommandInterface;
 use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
 use ContaoCommunityAlliance\DcGeneral\Event\ViewEvent;
 use ContaoCommunityAlliance\DcGeneral\Factory\Event\BuildDataDefinitionEvent;
@@ -61,8 +62,9 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
             ),
 
             DcGeneralEvents::VIEW => array(
-                array('validateParentHeaderInformation', 200)
-            )
+                array('validateParentHeaderInformation', 200),
+                array('inverseOperationButton', 200)
+            ),
         );
     }
 
@@ -272,6 +274,52 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
         }
 
         $listingConfig->setHeaderPropertyNames($validateHeaderProperties);
+    }
+
+    /**
+     * Inverse toggle operation button
+     *
+     * @param DcGeneralEvents|ViewEvent $event
+     * @param                           $eventName
+     * @param EventDispatcher           $dispatcher
+     */
+    public function inverseOperationButton(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
+    {
+        $environment        = $event->getEnvironment();
+        $dataDefinition     = $environment->getDataDefinition();
+        $dataDefinitionName = $dataDefinition->getName();
+
+        if (!$controller = $this->getDataProviderController($dataDefinitionName)) {
+            return;
+        }
+
+        $inverseToggleOperation = $controller->getInverseToggleOperation();
+        if (!array_key_exists($dataDefinitionName, $inverseToggleOperation)) {
+            return;
+        }
+
+        /** @var Contao2BackendViewDefinition $view */
+        $view          = $dataDefinition->getDefinition('view.contao2backend');
+        $modelCommands = $view->getModelCommands();
+
+        /** @var ToggleCommandInterface $command */
+        foreach ($modelCommands->getCommands() as $command) {
+            if (!array_key_exists($command->getName(), $inverseToggleOperation[$dataDefinitionName])) {
+                continue;
+            }
+
+            $extra = $command->getExtra()->getArrayCopy();
+
+            if (array_key_exists('attributes', $extra)) {
+                unset($extra['attributes']);
+            }
+
+            $command->setExtra(new \ArrayObject($extra));
+            $command->setToggleProperty(
+                $inverseToggleOperation[$dataDefinitionName][$command->getName()]['property']
+            );
+            $command->setInverse(true);
+        }
     }
 
     /**
