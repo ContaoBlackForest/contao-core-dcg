@@ -65,6 +65,7 @@ abstract class AbstractController implements ControllerInterface
         }
 
         $this->replaceDataContainerDriver($dataProvider);
+        $this->setAsService($dataProvider);
     }
 
     /**
@@ -79,5 +80,22 @@ abstract class AbstractController implements ControllerInterface
         }
 
         $GLOBALS['TL_DCA'][$dataProvider]['config']['dataContainer'] = 'General';
+    }
+
+    /**
+     * Set as service
+     *
+     * @param $dataProvider | string the data provider (e.g. tl_article)
+     */
+    protected function setAsService($dataProvider)
+    {
+        global $container;
+
+        $serviceName = 'dc-general.table_to_general.' . $dataProvider;
+        if (isset($container[$serviceName])) {
+            return;
+        }
+
+        $container[$serviceName] = $this;
     }
 }
