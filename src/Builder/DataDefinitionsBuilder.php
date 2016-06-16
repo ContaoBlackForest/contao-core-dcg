@@ -16,6 +16,9 @@ namespace ContaoBlackForest\Contao\Core\DcGeneral\Builder;
 
 
 use ContaoBlackForest\Contao\Core\DcGeneral\AbstractController;
+use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2BackendViewDefinition;
+use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
+use ContaoCommunityAlliance\DcGeneral\Event\ViewEvent;
 use ContaoCommunityAlliance\DcGeneral\Factory\Event\BuildDataDefinitionEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -55,6 +58,10 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
                 array('disableVersions', 201),
                 array('unsetParentTable', 200),
                 array('setIdParamToOperation', 200),
+            ),
+
+            DcGeneralEvents::VIEW => array(
+                array('validateParentHeaderInformation', 200)
             )
         );
     }
@@ -145,13 +152,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
 
         $reverseProviders = array_reverse($providers);
         if (empty($childCondition)
-            && $reverseProviders[0] === $containerName) {
+            && $reverseProviders[0] === $containerName
+        ) {
             $condition = $this->getChildCondition($reverseProviders[1], $reverseProviders[0]);
 
             $condition['filter'][] = array(
-                'local' => 'ptable',
+                'local'        => 'ptable',
                 'remote_value' => $reverseProviders[1],
-                'operation' => '='
+                'operation'    => '='
             );
 
             $childCondition[] = $condition;
@@ -222,6 +230,48 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
         if (isset($GLOBALS['TL_DCA'][$containerName]['config']['ptable'])) {
             unset($GLOBALS['TL_DCA'][$containerName]['config']['ptable']);
         }
+    }
+
+    /**
+     * Validate the header properties, if exists in parent property definition.
+     * This is useful for dynamic table e.g. tl_content.
+     *
+     * @param DcGeneralEvents|ViewEvent $event
+     * @param                           $eventName
+     * @param EventDispatcher           $dispatcher
+     */
+    public function validateParentHeaderInformation(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
+    {
+        $environment        = $event->getEnvironment();
+        $dataDefinition     = $environment->getDataDefinition();
+        $dataDefinitionName = $dataDefinition->getName();
+
+        if (!$controller = $this->getDataProviderController($dataDefinitionName)) {
+            return;
+        }
+
+        /** @var Contao2BackendViewDefinition $view */
+        $view          = $dataDefinition->getDefinition('view.contao2backend');
+        $listingConfig = $view->getListingConfig();
+
+        if (!$headerProperties = $listingConfig->getHeaderPropertyNames()) {
+            return;
+        }
+
+        $parentDataDefinition       = $environment->getParentDataDefinition();
+        $parentPropertiesDefinition = $parentDataDefinition->getPropertiesDefinition();
+        $parentProperties           = $parentPropertiesDefinition->getPropertyNames();
+
+        $validateHeaderProperties = array();
+        foreach ($headerProperties as $headerProperty) {
+            if (!in_array($headerProperty, $parentProperties)) {
+                continue;
+            }
+
+            $validateHeaderProperties[] = $headerProperty;
+        }
+
+        $listingConfig->setHeaderPropertyNames($validateHeaderProperties);
     }
 
     /**
