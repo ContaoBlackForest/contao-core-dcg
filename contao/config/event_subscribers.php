@@ -14,8 +14,10 @@
 
 use ContaoBlackForest\Contao\Core\DcGeneral\Builder\DataDefinitionsBuilder;
 use ContaoBlackForest\Contao\Core\DcGeneral\Controller\ActionController;
+use ContaoBlackForest\Contao\Core\DcGeneral\Controller\WidgetController;
 
 return array(
     new ActionController(),
-    new DataDefinitionsBuilder()
+    new DataDefinitionsBuilder(),
+    new WidgetController()
 );
