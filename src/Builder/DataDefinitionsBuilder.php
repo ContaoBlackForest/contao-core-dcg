@@ -57,6 +57,7 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
             BuildDataDefinitionEvent::NAME => array(
                 array('setDataProvider', 203),
                 array('setChildCondition', 202),
+                array('setListLabelConfig', 202),
                 array('disableVersions', 201),
                 array('unsetParentTable', 200),
                 array('setIdParamToOperation', 200),
@@ -170,6 +171,30 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
         }
 
         $GLOBALS['TL_DCA'][$containerName]['dca_config']['childCondition'] = $childCondition;
+    }
+
+
+    /**
+     * Set the list label config
+     *
+     * @param BuildDataDefinitionEvent $event
+     * @param                          $eventName
+     * @param EventDispatcher          $dispatcher
+     */
+    public function setListLabelConfig(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
+    {
+        $containerName = $event->getContainer()->getName();
+
+        if (!$controller = $this->getDataProviderController($containerName)) {
+            return;
+        }
+
+        $listLabelConfig = $controller->getListLabelConfig();
+        if (!isset($listLabelConfig[$containerName])) {
+            return;
+        }
+
+        $GLOBALS['TL_DCA'][$containerName]['list']['label'] = $listLabelConfig[$containerName];
     }
 
     /**

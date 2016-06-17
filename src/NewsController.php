@@ -72,4 +72,22 @@ class NewsController extends AbstractController implements ControllerInterface
             )
         );
     }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getListLabelConfig()
+    {
+        return array(
+            'tl_news' => array(
+                'fields' => array('id', 'headline'),
+                'format' => 'News::%s %s',
+            ),
+            'tl_content' => array(
+                'fields' => array('id', 'type'),
+                'format' => 'Content Element::%s %s',
+            ),
+        );
+    }
 }

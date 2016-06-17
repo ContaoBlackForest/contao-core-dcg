@@ -51,4 +51,12 @@ interface ControllerInterface
      * @return array
      */
     public function getInverseToggleOperation();
+
+    /**
+     * This returns label for list config.
+     * You must define the data provider, and there label config.
+     *
+     * @return array
+     */
+    public function getListLabelConfig();
 }
