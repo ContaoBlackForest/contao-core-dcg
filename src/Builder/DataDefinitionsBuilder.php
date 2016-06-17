@@ -17,6 +17,7 @@ namespace ContaoBlackForest\Contao\Core\DcGeneral\Builder;
 
 use ContaoBlackForest\Contao\Core\DcGeneral\AbstractController;
 use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2BackendViewDefinition;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommand;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommandInterface;
 use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
 use ContaoCommunityAlliance\DcGeneral\Event\ViewEvent;
@@ -62,6 +63,7 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
             ),
 
             DcGeneralEvents::VIEW => array(
+                array('toggleOperationButton', 200),
                 array('validateParentHeaderInformation', 200),
                 array('inverseOperationButton', 200)
             ),
@@ -274,6 +276,91 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
         }
 
         $listingConfig->setHeaderPropertyNames($validateHeaderProperties);
+    }
+
+    /**
+     * Toggle operation button
+     *
+     * @param DcGeneralEvents|ViewEvent $event
+     * @param                           $eventName
+     * @param EventDispatcher           $dispatcher
+     */
+    public function toggleOperationButton(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
+    {
+        $environment        = $event->getEnvironment();
+        $dataDefinition     = $environment->getDataDefinition();
+        $dataDefinitionName = $dataDefinition->getName();
+
+        if (!$controller = $this->getDataProviderController($dataDefinitionName)) {
+            return;
+        }
+
+        $toggleOperation = $controller->getToggleOperation();
+        if (!array_key_exists($dataDefinitionName, $toggleOperation)) {
+            return;
+        }
+
+        /** @var Contao2BackendViewDefinition $view */
+        $view          = $dataDefinition->getDefinition('view.contao2backend');
+        $modelCommands = $view->getModelCommands();
+
+        $replaceCommands = array();
+        /** @var ToggleCommandInterface $command */
+        foreach ($modelCommands->getCommands() as $command) {
+            if (!array_key_exists($command->getName(), $toggleOperation[$dataDefinitionName])) {
+                continue;
+            }
+
+            $noToggleCommand = null;
+            if (!$command instanceof ToggleCommandInterface) {
+                $noToggleCommand = $command;
+
+                $command = new ToggleCommand();
+                $command->setName($noToggleCommand->getName());
+                $command->setParameters($noToggleCommand->getParameters());
+                $command->setLabel($noToggleCommand->getLabel());
+                $command->setDescription($noToggleCommand->getDescription());
+                $command->setExtra($noToggleCommand->getExtra());
+            }
+
+            $extra = $command->getExtra()->getArrayCopy();
+
+            if (array_key_exists('attributes', $extra)) {
+                unset($extra['attributes']);
+            }
+
+            if (isset($toggleOperation[$dataDefinitionName][$command->getName()]['icon_disabled'])) {
+                $extra['icon_disabled'] = $toggleOperation[$dataDefinitionName][$command->getName()]['icon_disabled'];
+            }
+
+            $command->setExtra(new \ArrayObject($extra));
+            $command->setToggleProperty(
+                $toggleOperation[$dataDefinitionName][$command->getName()]['property']
+            );
+
+            if ($noToggleCommand) {
+                $replaceCommands[] = array(
+                    'replace' => $noToggleCommand,
+                    'with' => $command
+                );
+            }
+        }
+
+        if (!empty($replaceCommands)) {
+            $commands = $modelCommands->getCommands();
+
+            foreach ($commands as $hash => $command) {
+                foreach ($replaceCommands as $replaceCommand) {
+                    if ($replaceCommand['replace'] !== $command) {
+                        continue;
+                    }
+
+                    $commands[$hash] = $replaceCommand['with'];
+                }
+            }
+
+            $modelCommands->setCommands($commands);
+        }
     }
 
     /**

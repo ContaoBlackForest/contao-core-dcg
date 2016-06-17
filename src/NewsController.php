@@ -44,6 +44,24 @@ class NewsController extends AbstractController implements ControllerInterface
     /**
      * {@inheritDoc}
      */
+    public function getToggleOperation()
+    {
+        return array(
+            'tl_news' => array(
+                'toggle' => array(
+                    'property' => 'published'
+                ),
+                'feature' => array(
+                    'property' => 'featured',
+                    'icon_disabled' => 'featured_.gif'
+                )
+            )
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getInverseToggleOperation()
     {
         return array(
