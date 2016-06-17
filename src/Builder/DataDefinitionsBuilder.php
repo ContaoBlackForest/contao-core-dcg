@@ -91,7 +91,7 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
         foreach ($providers as $index => $provider) {
             if ($provider !== $containerName
                 && (!isset($dataProviderConfig['default'])
-                    || !isset($dataProviderConfig['parent']))
+                    && !isset($dataProviderConfig['parent']))
             ) {
                 continue;
             }
