@@ -111,6 +111,8 @@ abstract class AbstractController implements ControllerInterface
      * @param $dataProvider | string the data provider (e.g. tl_article)
      *
      * @see LegacyDcaDataDefinitionBuilder::253
+     *
+     * Fixme by DC General. By some callbacks the model don´t available. e.g. tl_news => config => onsubmit_callback => adjustTime
      */
     protected function handleDataContainerConfigCallbacks($dataProvider)
     {
