@@ -16,7 +16,7 @@ namespace ContaoBlackForest\Contao\Core\DcGeneral\Controller;
 
 use Contao\System;
 use Contao\Widget;
-use ContaoBlackForest\Contao\Core\DcGeneral\AbstractController;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 use ContaoCommunityAlliance\DcGeneral\Contao\Compatibility\DcCompat;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\ManipulateWidgetEvent;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition;
@@ -73,11 +73,16 @@ class PaletteController implements EventSubscriberInterface
      */
     public function handleSubSelector(ManipulateWidgetEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+        
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
 
-        if (!$controller = $this->getDataProviderController($dataDefinitionName)) {
+        if (!$controller = $service->getDataProviderController($dataDefinitionName)) {
             return;
         }
 
@@ -175,27 +180,5 @@ class PaletteController implements EventSubscriberInterface
         $callback = $property['options_callback'];
 
         return System::importStatic($callback[0])->{$callback[1]}($widget->dataContainer);
-    }
-
-    /**
-     * Get the data provider controller from service container
-     *
-     * @param $containerName
-     *
-     * @return AbstractController|null
-     */
-    protected function getDataProviderController($containerName)
-    {
-        global $container;
-
-        $serviceName = 'dc-general.table_to_general.' . $containerName;
-        if (!isset($container[$serviceName])) {
-            return null;
-        }
-
-        /** @var AbstractController $controller */
-        $controller = $container[$serviceName];
-
-        return $controller;
     }
 }

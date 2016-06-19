@@ -15,7 +15,7 @@
 namespace ContaoBlackForest\Contao\Core\DcGeneral\Builder;
 
 
-use ContaoBlackForest\Contao\Core\DcGeneral\AbstractController;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2BackendViewDefinition;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommand;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommandInterface;
@@ -80,9 +80,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      */
     public function setDataProvider(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+        
         $containerName = $event->getContainer()->getName();
 
-        if (!$controller = $this->getDataProviderController($containerName)) {
+        if (!$controller = $service->getDataProviderController($containerName)) {
             return;
         }
 
@@ -126,9 +131,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      */
     public function setChildCondition(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+        
         $containerName = $event->getContainer()->getName();
 
-        if (!$controller = $this->getDataProviderController($containerName)) {
+        if (!$controller = $service->getDataProviderController($containerName)) {
             return;
         }
 
@@ -183,9 +193,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      */
     public function setListLabelConfig(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+        
         $containerName = $event->getContainer()->getName();
 
-        if (!$controller = $this->getDataProviderController($containerName)) {
+        if (!$controller = $service->getDataProviderController($containerName)) {
             return;
         }
 
@@ -208,9 +223,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      */
     public function disableVersions(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+        
         $containerName = $event->getContainer()->getName();
 
-        if (!$controller = $this->getDataProviderController($containerName)) {
+        if (!$controller = $service->getDataProviderController($containerName)) {
             return;
         }
 
@@ -226,9 +246,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      */
     public function setIdParamToOperation(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+        
         $containerName = $event->getContainer()->getName();
 
-        if (!$controller = $this->getDataProviderController($containerName)) {
+        if (!$controller = $service->getDataProviderController($containerName)) {
             return;
         }
 
@@ -254,9 +279,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      */
     public function unsetParentTable(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+        
         $containerName = $event->getContainer()->getName();
 
-        if (!$controller = $this->getDataProviderController($containerName)) {
+        if (!$controller = $service->getDataProviderController($containerName)) {
             return;
         }
 
@@ -277,11 +307,16 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      */
     public function validateParentHeaderInformation(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+        
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
 
-        if (!$controller = $this->getDataProviderController($dataDefinitionName)) {
+        if (!$controller = $service->getDataProviderController($dataDefinitionName)) {
             return;
         }
 
@@ -318,11 +353,16 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      */
     public function toggleOperationButton(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+        
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
 
-        if (!$controller = $this->getDataProviderController($dataDefinitionName)) {
+        if (!$controller = $service->getDataProviderController($dataDefinitionName)) {
             return;
         }
 
@@ -372,7 +412,7 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
             if ($noToggleCommand) {
                 $replaceCommands[] = array(
                     'replace' => $noToggleCommand,
-                    'with' => $command
+                    'with'    => $command
                 );
             }
         }
@@ -403,11 +443,16 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      */
     public function inverseOperationButton(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+        
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
 
-        if (!$controller = $this->getDataProviderController($dataDefinitionName)) {
+        if (!$controller = $service->getDataProviderController($dataDefinitionName)) {
             return;
         }
 
@@ -438,28 +483,6 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
             );
             $command->setInverse(true);
         }
-    }
-
-    /**
-     * Get the data provider controller from service container
-     *
-     * @param $containerName
-     *
-     * @return AbstractController|null
-     */
-    protected function getDataProviderController($containerName)
-    {
-        global $container;
-
-        $serviceName = 'dc-general.table_to_general.' . $containerName;
-        if (!isset($container[$serviceName])) {
-            return null;
-        }
-
-        /** @var AbstractController $controller */
-        $controller = $container[$serviceName];
-
-        return $controller;
     }
 
     /**

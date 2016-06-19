@@ -14,7 +14,7 @@
 
 namespace ContaoBlackForest\Contao\Core\DcGeneral\Controller;
 
-use ContaoBlackForest\Contao\Core\DcGeneral\AbstractController;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetPropertyOptionsEvent;
 use ContaoCommunityAlliance\DcGeneral\Data\DefaultDataProvider;
 use ContaoCommunityAlliance\DcGeneral\Data\DefaultModel;
@@ -68,11 +68,16 @@ class WidgetController implements EventSubscriberInterface
      */
     public function handleSelectForeignKey(GetPropertyOptionsEvent $event, $eventName, EventDispatcher $dispatcher)
     {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
 
-        if (!$controller = $this->getDataProviderController($dataDefinitionName)) {
+        if (!$controller = $service->getDataProviderController($dataDefinitionName)) {
             return;
         }
 
@@ -114,27 +119,5 @@ class WidgetController implements EventSubscriberInterface
         }
 
         $event->setOptions($options);
-    }
-
-    /**
-     * Get the data provider controller from service container
-     *
-     * @param $containerName
-     *
-     * @return AbstractController|null
-     */
-    protected function getDataProviderController($containerName)
-    {
-        global $container;
-
-        $serviceName = 'dc-general.table_to_general.' . $containerName;
-        if (!isset($container[$serviceName])) {
-            return null;
-        }
-
-        /** @var AbstractController $controller */
-        $controller = $container[$serviceName];
-
-        return $controller;
     }
 }

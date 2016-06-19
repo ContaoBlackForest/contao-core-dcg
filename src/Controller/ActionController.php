@@ -15,7 +15,7 @@
 namespace ContaoBlackForest\Contao\Core\DcGeneral\Controller;
 
 
-use ContaoBlackForest\Contao\Core\DcGeneral\AbstractController;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2BackendViewDefinition;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommand;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommandInterface;
@@ -74,12 +74,17 @@ class ActionController implements EventSubscriberInterface
         if (!in_array($event->getAction()->getName(), array('toggle', 'feature'))) {
             return;
         }
+        
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
 
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
 
-        if (!$controller = $this->getDataProviderController($dataDefinitionName)) {
+        if (!$controller = $service->getDataProviderController($dataDefinitionName)) {
             return;
         }
 
@@ -158,18 +163,25 @@ class ActionController implements EventSubscriberInterface
      * @param ActionEvent     $event
      * @param                 $eventName
      * @param EventDispatcher $dispatcher
+     *
+     * Fixme by DC General. By toggle action don´t dispatch DcGeneralEvents::VIEW event.
      */
     public function validateInverseToggleOperation(ActionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
         if ($event->getAction()->getName() !== 'toggle') {
             return;
         }
+        
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
 
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
 
-        if (!$controller = $this->getDataProviderController($dataDefinitionName)) {
+        if (!$controller = $service->getDataProviderController($dataDefinitionName)) {
             return;
         }
 
@@ -200,27 +212,5 @@ class ActionController implements EventSubscriberInterface
             );
             $command->setInverse(true);
         }
-    }
-
-    /**
-     * Get the data provider controller from service container
-     *
-     * @param $containerName
-     *
-     * @return AbstractController|null
-     */
-    protected function getDataProviderController($containerName)
-    {
-        global $container;
-
-        $serviceName = 'dc-general.table_to_general.' . $containerName;
-        if (!isset($container[$serviceName])) {
-            return null;
-        }
-
-        /** @var AbstractController $controller */
-        $controller = $container[$serviceName];
-
-        return $controller;
     }
 }
