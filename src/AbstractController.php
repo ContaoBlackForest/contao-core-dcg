@@ -17,6 +17,7 @@ namespace ContaoBlackForest\Contao\Core\DcGeneral;
 use Contao\Input;
 use Contao\System;
 use ContaoCommunityAlliance\DcGeneral\Contao\Compatibility\DcCompat;
+use ContaoCommunityAlliance\DcGeneral\Data\DefaultModel;
 use ContaoCommunityAlliance\DcGeneral\Event\PostPersistModelEvent;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -144,7 +145,10 @@ abstract class AbstractController implements ControllerInterface
                 $dispatcher->addListener(
                     $callbackEvent,
                     function (Event $callbackEvent) use ($callback) {
-                        $dc = new DcCompat($callbackEvent->getEnvironment(), $callbackEvent->getModel());
+                        $environment = $callbackEvent->getEnvironment();
+                        $model       = $callbackEvent->getModel();
+
+                        $dc = new DcCompat($environment, $this->parseTimeStampProperties($model));
 
                         System::importStatic($callback[0])->{$callback[1]}($dc);
                     }
@@ -153,5 +157,36 @@ abstract class AbstractController implements ControllerInterface
 
             unset($GLOBALS['TL_DCA'][$dataProvider]['config'][$callbackName]);
         }
+    }
+
+    /**
+     * convert property for time from string to time.
+     *
+     * @param DefaultModel $model
+     *
+     * @return DefaultModel
+     */
+    protected function parseTimeStampProperties(DefaultModel $model)
+    {
+        $timeStampProperties = array('date');
+
+        foreach ($timeStampProperties as $timeStampProperty) {
+            if (!$model->getProperty($timeStampProperty)) {
+                continue;
+            }
+
+            switch ($timeStampProperty) {
+                case 'date':
+                    $date = strtotime($model->getProperty('date') . ' ' . $model->getProperty('time'));
+                    $model->setProperty('date', $date);
+                    $model->setProperty('time', $date);
+
+                    break;
+
+                default:
+            }
+        }
+
+        return $model;
     }
 }
