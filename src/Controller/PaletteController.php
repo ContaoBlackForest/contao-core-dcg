@@ -68,6 +68,8 @@ class PaletteController implements EventSubscriberInterface
      * @param ManipulateWidgetEvent $event
      * @param                       $eventName
      * @param EventDispatcher       $dispatcher
+     * 
+     * Fixme by DC General. DC General don´t add all sub selector properties to the legend. 
      */
     public function handleSubSelector(ManipulateWidgetEvent $event, $eventName, EventDispatcher $dispatcher)
     {

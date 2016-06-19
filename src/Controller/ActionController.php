@@ -66,6 +66,8 @@ class ActionController implements EventSubscriberInterface
      * @param ActionEvent     $event
      * @param                 $eventName
      * @param EventDispatcher $dispatcher
+     *
+     * Fixme by DC General. By toggle action don´t dispatch DcGeneralEvents::VIEW event.
      */
     public function validateToggleOperation(ActionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
