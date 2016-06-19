@@ -15,9 +15,11 @@
 use ContaoBlackForest\Contao\Core\DcGeneral\Builder\DataDefinitionsBuilder;
 use ContaoBlackForest\Contao\Core\DcGeneral\Controller\ActionController;
 use ContaoBlackForest\Contao\Core\DcGeneral\Controller\WidgetController;
+use ContaoBlackForest\Contao\Core\DcGeneral\Controller\PaletteController;
 
 return array(
     new ActionController(),
     new DataDefinitionsBuilder(),
+    new PaletteController(),
     new WidgetController()
 );
