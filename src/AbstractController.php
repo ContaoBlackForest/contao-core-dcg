@@ -15,6 +15,11 @@
 namespace ContaoBlackForest\Contao\Core\DcGeneral;
 
 use Contao\Input;
+use Contao\System;
+use ContaoCommunityAlliance\DcGeneral\Contao\Compatibility\DcCompat;
+use ContaoCommunityAlliance\DcGeneral\Event\PostPersistModelEvent;
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class AbstractController
@@ -66,6 +71,7 @@ abstract class AbstractController implements ControllerInterface
 
         $this->replaceDataContainerDriver($dataProvider);
         $this->setAsService($dataProvider);
+        $this->handleDataContainerConfigCallbacks($dataProvider);
     }
 
     /**
@@ -97,5 +103,53 @@ abstract class AbstractController implements ControllerInterface
         }
 
         $container[$serviceName] = $this;
+    }
+
+    /**
+     * handle callbacks from data container config.
+     *
+     * @param $dataProvider | string the data provider (e.g. tl_article)
+     *
+     * @see LegacyDcaDataDefinitionBuilder::253
+     */
+    protected function handleDataContainerConfigCallbacks($dataProvider)
+    {
+        global $container;
+
+        /** @var EventDispatcher $dispatcher */
+        $dispatcher = $container['event-dispatcher'];
+
+        $callbackNames = array('onsubmit_callback');
+
+        foreach ($callbackNames as $callbackName) {
+            $callbackEvent = null;
+
+            switch ($callbackName) {
+                case 'onsubmit_callback':
+                    $callbackEvent = PostPersistModelEvent::NAME;
+                    break;
+
+                default:
+            }
+
+            if (!$callbackEvent
+                || !array_key_exists($callbackName, $GLOBALS['TL_DCA'][$dataProvider]['config'])
+            ) {
+                continue;
+            }
+
+            foreach ($GLOBALS['TL_DCA'][$dataProvider]['config'][$callbackName] as $callback) {
+                $dispatcher->addListener(
+                    $callbackEvent,
+                    function (Event $callbackEvent) use ($callback) {
+                        $dc = new DcCompat($callbackEvent->getEnvironment(), $callbackEvent->getModel());
+
+                        System::importStatic($callback[0])->{$callback[1]}($dc);
+                    }
+                );
+            }
+
+            unset($GLOBALS['TL_DCA'][$dataProvider]['config'][$callbackName]);
+        }
     }
 }
