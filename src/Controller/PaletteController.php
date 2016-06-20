@@ -15,14 +15,18 @@
 namespace ContaoBlackForest\Contao\Core\DcGeneral\Controller;
 
 use Contao\System;
-use Contao\Widget;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 use ContaoCommunityAlliance\DcGeneral\Contao\Compatibility\DcCompat;
-use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\ManipulateWidgetEvent;
+use ContaoCommunityAlliance\DcGeneral\Data\DefaultModel;
+use ContaoCommunityAlliance\DcGeneral\Data\ModelId;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\Properties\DefaultProperty;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Condition\Property\PropertyValueCondition;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Legend;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Palette;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Property;
+use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
+use ContaoCommunityAlliance\DcGeneral\EnvironmentInterface;
+use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -56,8 +60,8 @@ class PaletteController implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            ManipulateWidgetEvent::NAME => array(
-                array('handleSubSelector', -100)
+            DcGeneralEvents::ACTION => array(
+                array('handleSubSelector')
             )
         );
     }
@@ -65,120 +69,134 @@ class PaletteController implements EventSubscriberInterface
     /**
      * This add missing sub selectors
      *
-     * @param ManipulateWidgetEvent $event
-     * @param                       $eventName
-     * @param EventDispatcher       $dispatcher
-     * 
-     * Fixme by DC General. DC General don´t add all sub selector properties to the legend. 
+     * @param ActionEvent     $event
+     * @param                 $eventName
+     * @param EventDispatcher $dispatcher
+     *
+     * Fixme by DC General. DC General don´t add all sub selector properties to the legend.
      */
-    public function handleSubSelector(ManipulateWidgetEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function handleSubSelector(ActionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
         global $container;
 
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
-        
+
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
+        $inputProvider      = $environment->getInputProvider();
 
-        if (!$controller = $service->getDataProviderController($dataDefinitionName)) {
-            return;
-        }
-
-        $property     = $event->getProperty();
-        $propertyName = $property->getName();
-
-        $__selector__ = $GLOBALS['TL_DCA'][$dataDefinitionName]['palettes']['__selector__'];
-        if (!in_array($propertyName, $__selector__)
+        if (!$inputProvider->hasParameter('id')
+            || $event->getAction()->getName() !== 'edit'
+            || !$controller = $service->getDataProviderController($dataDefinitionName)
         ) {
             return;
         }
 
-        if (!$options = $property->getOptions()) {
-            if (!$options = $this->getOptionsFromWidget($event->getWidget())) {
-                return;
-            }
-        }
+        $properties         = $dataDefinition->getPropertiesDefinition()->getProperties();
+        $__selector__       = $GLOBALS['TL_DCA'][$dataDefinitionName]['palettes']['__selector__'];
+        $selectorProperties = array_intersect_key($properties, array_flip($__selector__));
 
-        $subPalettes = $GLOBALS['TL_DCA'][$dataDefinitionName]['subpalettes'];
+        $dataProvider = $environment->getDataProvider();
+        $modelId      = ModelId::fromSerialized($inputProvider->getParameter('id'));
+        $model        = $dataProvider->fetch($dataProvider->getEmptyConfig()->setId($modelId->getId()));
 
-        $palettes = $dataDefinition->getPalettesDefinition()->getPalettes();
-        /** @var Palette $palette */
-        foreach ($palettes as $palette) {
-            if (!$palette->getProperty($propertyName)) {
+        foreach ($selectorProperties as $property) {
+            $propertyName = $property->getName();
+
+            if (!in_array($propertyName, $__selector__)
+            ) {
                 continue;
             }
 
-            /** @var Legend $legend */
-            foreach ($palette->getLegends() as $legend) {
-                $addLegendProperties = array();
+            if (!$options = $property->getOptions()) {
+                if (!$options = $this->getOptionsOptionsCallback($property, $dataDefinitionName, $environment, $model)) {
+                    continue;
+                }
+            }
 
-                if (!$legend->hasProperty($propertyName)) {
+            $subPalettes = $GLOBALS['TL_DCA'][$dataDefinitionName]['subpalettes'];
+
+            $palettes = $dataDefinition->getPalettesDefinition()->getPalettes();
+            /** @var Palette $palette */
+            foreach ($palettes as $palette) {
+                if (!$palette->getProperty($propertyName)) {
                     continue;
                 }
 
-                foreach ($options as $option) {
-                    $subSelectorValue = $propertyName . '_' . $option;
-                    if (!array_key_exists($subSelectorValue, $subPalettes)) {
+                /** @var Legend $legend */
+                foreach ($palette->getLegends() as $legend) {
+                    $addLegendProperties = array();
+
+                    if (!$legend->hasProperty($propertyName)) {
                         continue;
                     }
 
-                    $subPaletteProperties = explode(',', $subPalettes[$subSelectorValue]);
-                    foreach ($subPaletteProperties as $subPaletteProperty) {
-                        if ($legend->hasProperty($subPaletteProperty)) {
-                            $legendProperty = $legend->getProperty($subPaletteProperty);
-
-                            $visibleCondition = $legendProperty->getVisibleCondition();
-                            if ($visibleCondition->getPropertyName() === $propertyName
-                                && $visibleCondition->getPropertyValue() === $option
-                            ) {
-                                continue;
-                            }
+                    foreach ($options as $option) {
+                        $subSelectorValue = $propertyName . '_' . $option;
+                        if (!array_key_exists($subSelectorValue, $subPalettes)) {
+                            continue;
                         }
 
+                        $subPaletteProperties = explode(',', $subPalettes[$subSelectorValue]);
+                        foreach ($subPaletteProperties as $subPaletteProperty) {
+                            if ($legend->hasProperty($subPaletteProperty)) {
+                                $legendProperty = $legend->getProperty($subPaletteProperty);
 
-                        $visibleCondition = new PropertyValueCondition();
-                        $visibleCondition->setPropertyName($propertyName);
-                        $visibleCondition->setPropertyValue($option);
+                                $visibleCondition = $legendProperty->getVisibleCondition();
+                                if ($visibleCondition->getPropertyName() === $propertyName
+                                    && $visibleCondition->getPropertyValue() === $option
+                                ) {
+                                    continue;
+                                }
+                            }
 
-                        $paletteProperty = new Property($subPaletteProperty);
-                        $paletteProperty->setVisibleCondition($visibleCondition);
 
-                        $addLegendProperties[] = $paletteProperty;
+                            $visibleCondition = new PropertyValueCondition();
+                            $visibleCondition->setPropertyName($propertyName);
+                            $visibleCondition->setPropertyValue($option);
+
+                            $paletteProperty = new Property($subPaletteProperty);
+                            $paletteProperty->setVisibleCondition($visibleCondition);
+
+                            $addLegendProperties[] = $paletteProperty;
+                        }
                     }
-                }
 
-                if (empty($addLegendProperties)) {
-                    continue;
-                }
+                    if (empty($addLegendProperties)) {
+                        continue;
+                    }
 
-                $legendProperties = array_merge($legend->getProperties(), $addLegendProperties);
-                $legend->clearProperties()->setProperties($legendProperties);
+                    $legendProperties = array_merge($legend->getProperties(), $addLegendProperties);
+                    $legend->clearProperties()->setProperties($legendProperties);
+                }
             }
         }
     }
 
     /**
-     * Get widget options form options callback
+     * Get property options form options callback
      *
-     * @param Widget $widget
+     * @param DefaultProperty      $property
+     * @param                      $dataProvider
+     * @param EnvironmentInterface $environment
+     * @param DefaultModel         $model
      *
      * @return null
      */
-    protected function getOptionsFromWidget(Widget $widget)
+    protected function getOptionsOptionsCallback(DefaultProperty $property, $dataProvider, EnvironmentInterface $environment, DefaultModel $model)
     {
-        /** @var DcCompat $dataContainer */
-        $dataContainer = $widget->dataContainer;
+        $dc = new DcCompat($environment, $model, $property->getName());
 
-        $property = $GLOBALS['TL_DCA'][$dataContainer->getModel()->getProviderName()]['fields'][$dataContainer->getPropertyName()];
+        $propertyField = $GLOBALS['TL_DCA'][$dataProvider]['fields'][$property->getName()];
 
-        if (!array_key_exists('options_callback', $property)) {
+        if (!array_key_exists('options_callback', $propertyField)) {
             return null;
         }
 
-        $callback = $property['options_callback'];
+        $callback = $propertyField['options_callback'];
 
-        return System::importStatic($callback[0])->{$callback[1]}($widget->dataContainer);
+        return System::importStatic($callback[0])->{$callback[1]}($dc);
     }
 }
