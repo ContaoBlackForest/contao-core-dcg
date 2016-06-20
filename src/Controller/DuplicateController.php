@@ -72,6 +72,8 @@ class DuplicateController implements EventSubscriberInterface
      * @param PreDuplicateModelEvent $event
      * @param                        $eventName
      * @param EventDispatcher        $dispatcher
+     *
+     * Fixme by DC General. If duplicate a model, properties don´t has defaultValue or execute save callbacks.
      */
     public function handleDuplicate(PreDuplicateModelEvent $event, $eventName, EventDispatcher $dispatcher)
     {
