@@ -118,11 +118,11 @@ class DuplicateController implements EventSubscriberInterface
     /**
      * After duplicate a model with property alias, reset the property and execute the save callback.
      *
-     * @param PreDuplicateModelEvent $event
-     * @param                        $eventName
-     * @param EventDispatcher        $dispatcher
+     * @param PostDuplicateModelEvent $event
+     * @param                         $eventName
+     * @param EventDispatcher         $dispatcher
      */
-    public function handleDuplicateAlias(PreDuplicateModelEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function handleDuplicateAlias(PostDuplicateModelEvent $event, $eventName, EventDispatcher $dispatcher)
     {
         global $container;
 
