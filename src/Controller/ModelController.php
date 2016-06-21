@@ -21,6 +21,7 @@ use ContaoCommunityAlliance\DcGeneral\Data\DefaultModel;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\Properties\DefaultProperty;
 use ContaoCommunityAlliance\DcGeneral\EnvironmentInterface;
 use ContaoCommunityAlliance\DcGeneral\Event\PostDuplicateModelEvent;
+use ContaoCommunityAlliance\DcGeneral\Event\PostPersistModelEvent;
 use ContaoCommunityAlliance\DcGeneral\Event\PreDuplicateModelEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -55,6 +56,10 @@ class ModelController implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
+            PostPersistModelEvent::NAME => array(
+                array('handlePostPersistModel')
+            ),
+
             PreDuplicateModelEvent::NAME => array(
                 array('handleDuplicate')
             ),
@@ -63,6 +68,53 @@ class ModelController implements EventSubscriberInterface
                 array('handleDuplicateAlias')
             )
         );
+    }
+
+    /**
+     * handle post persist model.
+     *
+     * @param PostPersistModelEvent $event
+     * @param                       $eventName
+     * @param EventDispatcher       $dispatcher
+     */
+    public function handlePostPersistModel(PostPersistModelEvent $event, $eventName, EventDispatcher $dispatcher)
+    {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+
+        $environment        = $event->getEnvironment();
+        $dataDefinition     = $environment->getDataDefinition();
+        $dataDefinitionName = $dataDefinition->getName();
+
+        if (!$controller = $service->getDataProviderController($dataDefinitionName)
+        ) {
+            return;
+        }
+
+        $model = $event->getModel();
+
+        $properties = $dataDefinition->getPropertiesDefinition()->getProperties();
+        foreach ($properties as $property) {
+            switch ($property->getName()) {
+                case 'alias':
+                    if ($event->getOriginalModel()->getProperty($property->getName())) {
+                        break;
+                    }
+
+                    $model->setProperty($property->getName(), '');
+
+                    break;
+
+                default:
+            }
+
+            $this->executeSaveCallback($model, $property, $environment);
+        }
+
+        $provider = $environment->getDataProvider($model->getProviderName());
+        $provider->save($model);
     }
 
     /**
