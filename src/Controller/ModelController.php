@@ -76,6 +76,8 @@ class ModelController implements EventSubscriberInterface
      * @param PostPersistModelEvent $event
      * @param                       $eventName
      * @param EventDispatcher       $dispatcher
+     *
+     * Fixme by Dc General. property save callbacks are execute too early.
      */
     public function handlePostPersistModel(PostPersistModelEvent $event, $eventName, EventDispatcher $dispatcher)
     {
@@ -125,7 +127,7 @@ class ModelController implements EventSubscriberInterface
      * @param                        $eventName
      * @param EventDispatcher        $dispatcher
      *
-     * Fixme by DC General. If duplicate a model, properties don´t has defaultValue or execute save callbacks.
+     * Fixme by DC General. If duplicate a model, properties don´t has defaultValue and execute save callbacks too early.
      */
     public function handleDuplicate(PreDuplicateModelEvent $event, $eventName, EventDispatcher $dispatcher)
     {
@@ -173,6 +175,8 @@ class ModelController implements EventSubscriberInterface
      * @param PostDuplicateModelEvent $event
      * @param                         $eventName
      * @param EventDispatcher         $dispatcher
+     *
+     * Fixme by Dc General. While save callbacks execute too early, must be execute this method.
      */
     public function handleDuplicateAlias(PostDuplicateModelEvent $event, $eventName, EventDispatcher $dispatcher)
     {
