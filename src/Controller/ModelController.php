@@ -27,11 +27,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 
 /**
- * Class DuplicateController
+ * Class ModelController
  *
  * @package ContaoBlackForest\Contao\Core\DcGeneral\Controller
  */
-class DuplicateController implements EventSubscriberInterface
+class ModelController implements EventSubscriberInterface
 {
 
     /**
@@ -87,8 +87,8 @@ class DuplicateController implements EventSubscriberInterface
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
 
-        if (!$controller = $service->getDataProviderController($dataDefinitionName)
-                           || $inputProvider->getParameter('act') !== 'copy'
+        if ($inputProvider->getParameter('act') !== 'copy'
+            || !$controller = $service->getDataProviderController($dataDefinitionName)
         ) {
             return;
         }
