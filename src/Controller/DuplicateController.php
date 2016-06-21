@@ -135,9 +135,9 @@ class DuplicateController implements EventSubscriberInterface
         $dataDefinitionName   = $dataDefinition->getName();
         $propertiesDefinition = $dataDefinition->getPropertiesDefinition();
 
-        if (!$controller = $service->getDataProviderController($dataDefinitionName)
-                           || $inputProvider->getParameter('act') !== 'copy'
-                           || !$propertiesDefinition->hasProperty('alias')
+        if (!$propertiesDefinition->hasProperty('alias')
+            || $inputProvider->getParameter('act') !== 'copy'
+            || !$controller = $service->getDataProviderController($dataDefinitionName)
         ) {
             return;
         }
