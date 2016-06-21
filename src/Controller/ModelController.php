@@ -157,12 +157,22 @@ class ModelController implements EventSubscriberInterface
                 continue;
             }
 
-            if ($defaultValue = $property->getDefaultValue()) {
-                $model->setProperty($property->getName(), $defaultValue);
-            }
+            $extra = $property->getExtra();
+            if ($extra
+                && array_key_exists('doNotCopy', $extra)
+                && $extra['doNotCopy']
+            ) {
+                if (!$defaultValue = $property->getDefaultValue()) {
+                    switch ($property->getWidgetType()) {
+                        case 'checkbox':
+                            $defaultValue = 0;
 
-            if ($property->getName() === 'published') {
-                $model->setProperty($property->getName(), 0);
+                            break;
+                        default:
+                    }
+                }
+
+                $model->setProperty($property->getName(), $defaultValue);
             }
 
             $this->executeSaveCallback($model, $property, $environment);
