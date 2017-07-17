@@ -17,6 +17,7 @@ namespace ContaoBlackForest\Contao\Core\DcGeneral\Builder;
 
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2BackendViewDefinition;
+use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2BackendViewDefinitionInterface;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommand;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommandInterface;
 use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
@@ -61,6 +62,7 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
                 array('disableVersions', 201),
                 array('unsetParentTable', 200),
                 array('setIdParamToOperation', 200),
+                array('parseModelCommands'),
             ),
 
             DcGeneralEvents::VIEW => array(
@@ -264,6 +266,41 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
 
             $operation['idparam'] = 'pid';
         }
+    }
+
+    /**
+     * Parse model commands for edit and editheader.
+     * Give in parent list view the header edit button the right action edit.
+     *
+     * @param BuildDataDefinitionEvent $event The event.
+     *
+     * @return void
+     *
+     * TODO remove this if dc general handle it.
+     */
+    public function parseModelCommands(BuildDataDefinitionEvent $event)
+    {
+        /** @var TableToGeneralService $service */
+        $service = $GLOBALS['container']['dc-general.table_to_general'];
+
+        $container = $event->getContainer();
+
+        if (!$controller = $service->getDataProviderController($container->getName())) {
+            return;
+        }
+
+        $backendView = $container->getDefinition(Contao2BackendViewDefinitionInterface::NAME);
+
+        $modelCommands = $backendView->getModelCommands();
+        if (false === $modelCommands->hasCommandNamed('editheader')) {
+            return;
+        }
+
+        $editChildes = $modelCommands->getCommandNamed('edit');
+        $editChildes->setName('editChildes');
+
+        $editChildes = $modelCommands->getCommandNamed('editheader');
+        $editChildes->setName('edit');
     }
 
     /**
