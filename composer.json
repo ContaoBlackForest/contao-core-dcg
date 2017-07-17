@@ -44,7 +44,7 @@
   "extra": {
     "contao": {
       "sources": {
-        "contao": "system/modules/core-dcg"
+        "src/Resources/contao": "system/modules/core-dcg"
       }
     },
     "branch-alias": {
