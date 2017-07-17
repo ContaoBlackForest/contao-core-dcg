@@ -12,7 +12,7 @@
  * @copyright Copyright 2016 ContaoBlackForest
  */
 
-namespace ContaoBlackForest\Contao\Core\DcGeneral\Controller;
+namespace ContaoBlackForest\Contao\Core\DcGeneral\DataContainer;
 
 
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
@@ -27,7 +27,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Class DataDefinitionsBuilder
  *
- * @package ContaoBlackForest\Contao\Core\DcGeneral\Builds
+ * @package ContaoBlackForest\Contao\Core\DcGeneral\DataContainer
  */
 class ActionController implements EventSubscriberInterface
 {
@@ -74,7 +74,7 @@ class ActionController implements EventSubscriberInterface
         if (!in_array($event->getAction()->getName(), array('toggle', 'feature'))) {
             return;
         }
-        
+
         global $container;
 
         /** @var TableToGeneralService $service */
@@ -171,7 +171,7 @@ class ActionController implements EventSubscriberInterface
         if ($event->getAction()->getName() !== 'toggle') {
             return;
         }
-        
+
         global $container;
 
         /** @var TableToGeneralService $service */

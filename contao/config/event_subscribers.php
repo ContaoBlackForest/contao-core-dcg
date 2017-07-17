@@ -13,10 +13,10 @@
  */
 
 use ContaoBlackForest\Contao\Core\DcGeneral\Builder\DataDefinitionsBuilder;
-use ContaoBlackForest\Contao\Core\DcGeneral\Controller\ActionController;
-use ContaoBlackForest\Contao\Core\DcGeneral\Controller\ModelController;
-use ContaoBlackForest\Contao\Core\DcGeneral\Controller\WidgetController;
-use ContaoBlackForest\Contao\Core\DcGeneral\Controller\PaletteController;
+use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ActionController;
+use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController;
+use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\PaletteController;
+use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\WidgetController;
 
 return array(
     new ActionController(),

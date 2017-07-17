@@ -12,7 +12,7 @@
  * @copyright Copyright 2016 ContaoBlackForest
  */
 
-namespace ContaoBlackForest\Contao\Core\DcGeneral\Controller;
+namespace ContaoBlackForest\Contao\Core\DcGeneral\DataContainer;
 
 use Contao\System;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
@@ -30,7 +30,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Class ModelController
  *
- * @package ContaoBlackForest\Contao\Core\DcGeneral\Controller
+ * @package ContaoBlackForest\Contao\Core\DcGeneral\DataContainer
  */
 class ModelController implements EventSubscriberInterface
 {

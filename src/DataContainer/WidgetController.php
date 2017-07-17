@@ -12,7 +12,7 @@
  * @copyright Copyright 2016 ContaoBlackForest
  */
 
-namespace ContaoBlackForest\Contao\Core\DcGeneral\Controller;
+namespace ContaoBlackForest\Contao\Core\DcGeneral\DataContainer;
 
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 use ContaoCommunityAlliance\DcGeneral\Contao\View\Contao2BackendView\Event\GetPropertyOptionsEvent;
@@ -25,7 +25,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Class WidgetController
  *
- * @package ContaoBlackForest\Contao\Core\DcGeneral\Controller
+ * @package ContaoBlackForest\Contao\Core\DcGeneral\DataContainer
  */
 class WidgetController implements EventSubscriberInterface
 {
@@ -63,7 +63,7 @@ class WidgetController implements EventSubscriberInterface
      * @param GetPropertyOptionsEvent $event
      * @param                         $eventName
      * @param EventDispatcher         $dispatcher
-     * 
+     *
      * Fixme by DC General. This is missing by DC General.
      */
     public function handleSelectForeignKey(GetPropertyOptionsEvent $event, $eventName, EventDispatcher $dispatcher)
