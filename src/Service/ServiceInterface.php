@@ -12,14 +12,14 @@
  * @copyright Copyright 2016 ContaoBlackForest
  */
 
-namespace ContaoBlackForest\Contao\Core\DcGeneral;
+namespace ContaoBlackForest\Contao\Core\DcGeneral\Service;
 
 /**
- * Interface ControllerInterface
+ * Interface ServiceInterface
  *
- * @package ContaoBlackForest\Contao\Core\DcGeneral
+ * @package ContaoBlackForest\Contao\Core\DcGeneral\Service
  */
-interface ControllerInterface
+interface ServiceInterface
 {
     /**
      * Get the module name.
@@ -39,7 +39,7 @@ interface ControllerInterface
     /**
      * This returns toggle operation.
      * You must define the data provider, and there the operation for inverse.
-     * 
+     *
      * @return array
      */
     public function getToggleOperation();
@@ -47,7 +47,7 @@ interface ControllerInterface
     /**
      * This returns toggle operation there have inverse function.
      * You must define the data provider, and there the operation for inverse.
-     * 
+     *
      * @return array
      */
     public function getInverseToggleOperation();

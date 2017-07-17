@@ -12,4 +12,4 @@
  * @copyright Copyright 2016 ContaoBlackForest
  */
 
-$GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\NewsController', 'initialize');
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsService', 'initialize');

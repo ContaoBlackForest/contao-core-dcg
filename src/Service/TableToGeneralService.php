@@ -15,8 +15,6 @@
 namespace ContaoBlackForest\Contao\Core\DcGeneral\Service;
 
 
-use ContaoBlackForest\Contao\Core\DcGeneral\AbstractController;
-
 /**
  * Class TableToGeneralService
  *
@@ -29,7 +27,7 @@ class TableToGeneralService
      *
      * @param $containerName
      *
-     * @return AbstractController|null
+     * @return AbstractService|null
      */
     public function getDataProviderController($containerName)
     {
@@ -40,7 +38,7 @@ class TableToGeneralService
             return null;
         }
 
-        /** @var AbstractController $controller */
+        /** @var AbstractService $controller */
         $controller = $container[$serviceName];
 
         return $controller;

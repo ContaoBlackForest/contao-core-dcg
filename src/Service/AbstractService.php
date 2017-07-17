@@ -12,7 +12,7 @@
  * @copyright Copyright 2016 ContaoBlackForest
  */
 
-namespace ContaoBlackForest\Contao\Core\DcGeneral;
+namespace ContaoBlackForest\Contao\Core\DcGeneral\Service;
 
 use Contao\Input;
 use Contao\System;
@@ -23,11 +23,11 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
- * Class AbstractController
+ * Class AbstractService
  *
- * @package ContaoBlackForest\Contao\Core\DcGeneral
+ * @package ContaoBlackForest\Contao\Core\DcGeneral\Service
  */
-abstract class AbstractController implements ControllerInterface
+abstract class AbstractService implements ServiceInterface
 {
     /**
      * Initialize the contao core module to dc general
@@ -72,7 +72,7 @@ abstract class AbstractController implements ControllerInterface
 
         $this->replaceDataContainerDriver($dataProvider);
         $this->setAsService($dataProvider);
-        $this->handleDataContainerConfigCallbacks($dataProvider);
+        #$this->handleDataContainerConfigCallbacks($dataProvider);
     }
 
     /**

@@ -12,14 +12,14 @@
  * @copyright Copyright 2016 ContaoBlackForest
  */
 
-namespace ContaoBlackForest\Contao\Core\DcGeneral;
+namespace ContaoBlackForest\Contao\Core\DcGeneral\Service;
 
 /**
- * Class NewsController
+ * Class NewsService
  *
- * @package ContaoBlackForest\Contao\Core\DcGeneral
+ * @package ContaoBlackForest\Contao\Core\DcGeneral\Service
  */
-class NewsController extends AbstractController implements ControllerInterface
+class NewsService extends AbstractService implements ServiceInterface
 {
     /**
      * {@inheritDoc}
