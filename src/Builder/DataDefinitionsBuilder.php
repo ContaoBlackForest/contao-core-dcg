@@ -65,7 +65,7 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
                 array('parseModelCommands'),
             ),
 
-            DcGeneralEvents::VIEW => array(
+            DcGeneralEvents::ACTION => array(
                 array('toggleOperationButton', 200),
                 array('validateParentHeaderInformation', 200),
                 array('inverseOperationButton', 200)
