@@ -61,7 +61,7 @@ class PaletteController implements EventSubscriberInterface
     {
         return array(
             DcGeneralEvents::ACTION => array(
-                array('handleSubSelector')
+                #array('handleSubSelector')
             )
         );
     }
@@ -73,6 +73,7 @@ class PaletteController implements EventSubscriberInterface
      * @param                 $eventName
      * @param EventDispatcher $dispatcher
      *
+     * Fixme since DC General beta 39 this don´t work.
      * Fixme by DC General. DC General don´t add all sub selector properties to the legend.
      */
     public function handleSubSelector(ActionEvent $event, $eventName, EventDispatcher $dispatcher)
