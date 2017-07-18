@@ -45,6 +45,7 @@
     }
   },
   "extra": {
+    "contao-manager-plugin": "ContaoBlackForest\\Contao\\Core\\DcGeneral\\ContaoManager\\Plugin",
     "branch-alias": {
       "dev-release/1.1": "1.1.x-dev"
     }
