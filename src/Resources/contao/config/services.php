@@ -15,6 +15,8 @@
 
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 
-$container['dc-general.table_to_general'] = function($container) {
-    return new TableToGeneralService();
-};
+/** @var \DependencyInjection\Container\PimpleGate $container */
+
+$container->provideSymfonyService('dc-general.table_to_general');
+$container->provideSymfonyService('dc-general.table_to_general.tl_news');
+$container->provideSymfonyService('dc-general.table_to_general.tl_news_archive');

@@ -1,0 +1,29 @@
+services:
+    dc-general.table_to_general:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService
+
+    dc-general.table_to_general.tl_news:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsService
+    dc-general.table_to_general.tl_news_archive:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsService
+
+    cb.core_to_dcg.subscriber.action_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ActionController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.model_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.data_definitions_builder:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Builder\DataDefinitionsBuilder
+        tags:
+            - { name: kernel.event_subscriber }
+#    cb.core_to_dcg.subscriber.paletten_controller:
+#        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\PaletteController
+#        tags:
+#            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.widget_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\WidgetController
+        tags:
+            - { name: kernel.event_subscriber }
