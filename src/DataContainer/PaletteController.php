@@ -70,13 +70,11 @@ class PaletteController implements EventSubscriberInterface
      * This add missing sub selectors
      *
      * @param ActionEvent     $event
-     * @param                 $eventName
-     * @param EventDispatcher $dispatcher
      *
      * Fixme since DC General beta 39 this don´t work.
      * Fixme by DC General. DC General don´t add all sub selector properties to the legend.
      */
-    public function handleSubSelector(ActionEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function handleSubSelector(ActionEvent $event)
     {
         global $container;
 

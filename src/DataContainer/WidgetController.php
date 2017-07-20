@@ -66,7 +66,7 @@ class WidgetController implements EventSubscriberInterface
      *
      * Fixme by DC General. This is missing by DC General.
      */
-    public function handleSelectForeignKey(GetPropertyOptionsEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function handleSelectForeignKey(GetPropertyOptionsEvent $event)
     {
         global $container;
 

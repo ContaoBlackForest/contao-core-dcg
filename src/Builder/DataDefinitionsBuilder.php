@@ -21,7 +21,7 @@ use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2Ba
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommand;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommandInterface;
 use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
-use ContaoCommunityAlliance\DcGeneral\Event\ViewEvent;
+use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use ContaoCommunityAlliance\DcGeneral\Factory\Event\BuildDataDefinitionEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -77,16 +77,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      * Set the data provider to the dca_config
      *
      * @param BuildDataDefinitionEvent $event
-     * @param                          $eventName
-     * @param EventDispatcher          $dispatcher
      */
-    public function setDataProvider(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function setDataProvider(BuildDataDefinitionEvent $event)
     {
         global $container;
 
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
-        
+
         $containerName = $event->getContainer()->getName();
 
         if (!$controller = $service->getDataProviderController($containerName)) {
@@ -128,16 +126,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      * Set the child condition to the dca_config
      *
      * @param BuildDataDefinitionEvent $event
-     * @param                          $eventName
-     * @param EventDispatcher          $dispatcher
      */
-    public function setChildCondition(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function setChildCondition(BuildDataDefinitionEvent $event)
     {
         global $container;
 
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
-        
+
         $containerName = $event->getContainer()->getName();
 
         if (!$controller = $service->getDataProviderController($containerName)) {
@@ -190,16 +186,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      * Set the list label config
      *
      * @param BuildDataDefinitionEvent $event
-     * @param                          $eventName
-     * @param EventDispatcher          $dispatcher
      */
-    public function setListLabelConfig(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function setListLabelConfig(BuildDataDefinitionEvent $event)
     {
         global $container;
 
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
-        
+
         $containerName = $event->getContainer()->getName();
 
         if (!$controller = $service->getDataProviderController($containerName)) {
@@ -218,18 +212,16 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      * Disable versions, this is missing feature from DC General
      *
      * @param BuildDataDefinitionEvent $event
-     * @param                          $eventName
-     * @param EventDispatcher          $dispatcher
      *
      * Fixme by DC General. DC General don´t can handle Versions.
      */
-    public function disableVersions(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function disableVersions(BuildDataDefinitionEvent $event)
     {
         global $container;
 
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
-        
+
         $containerName = $event->getContainer()->getName();
 
         if (!$controller = $service->getDataProviderController($containerName)) {
@@ -243,16 +235,14 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      * Set the id parameter to operation, if the operation go to a child table
      *
      * @param BuildDataDefinitionEvent $event
-     * @param                          $eventName
-     * @param EventDispatcher          $dispatcher
      */
-    public function setIdParamToOperation(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function setIdParamToOperation(BuildDataDefinitionEvent $event)
     {
         global $container;
 
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
-        
+
         $containerName = $event->getContainer()->getName();
 
         if (!$controller = $service->getDataProviderController($containerName)) {
@@ -309,18 +299,16 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      * @see \Contao\Backend::548
      *
      * @param BuildDataDefinitionEvent $event
-     * @param                          $eventName
-     * @param EventDispatcher          $dispatcher
      *
      * Fixme by DC General. We must fix this by DC General, or is better use own breadcrumb e.g. MetaModels.
      */
-    public function unsetParentTable(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function unsetParentTable(BuildDataDefinitionEvent $event)
     {
         global $container;
 
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
-        
+
         $containerName = $event->getContainer()->getName();
 
         if (!$controller = $service->getDataProviderController($containerName)) {
@@ -336,19 +324,17 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      * Validate the header properties, if exists in parent property definition.
      * This is useful for dynamic table e.g. tl_content.
      *
-     * @param DcGeneralEvents|ViewEvent $event
-     * @param                           $eventName
-     * @param EventDispatcher           $dispatcher
+     * @param ActionEvent $event
      *
      * Fixme by DC General. Validate this by DC General.
      */
-    public function validateParentHeaderInformation(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function validateParentHeaderInformation(ActionEvent $event)
     {
         global $container;
 
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
-        
+
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
@@ -384,17 +370,15 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
     /**
      * Toggle operation button
      *
-     * @param DcGeneralEvents|ViewEvent $event
-     * @param                           $eventName
-     * @param EventDispatcher           $dispatcher
+     * @param ActionEvent $event
      */
-    public function toggleOperationButton(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function toggleOperationButton(ActionEvent $event)
     {
         global $container;
 
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
-        
+
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();
@@ -474,17 +458,15 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
     /**
      * Inverse toggle operation button
      *
-     * @param DcGeneralEvents|ViewEvent $event
-     * @param                           $eventName
-     * @param EventDispatcher           $dispatcher
+     * @param ActionEvent $event
      */
-    public function inverseOperationButton(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function inverseOperationButton(ActionEvent $event)
     {
         global $container;
 
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
-        
+
         $environment        = $event->getEnvironment();
         $dataDefinition     = $environment->getDataDefinition();
         $dataDefinitionName = $dataDefinition->getName();

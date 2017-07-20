@@ -64,12 +64,10 @@ class ActionController implements EventSubscriberInterface
      * Validate the toggle operation by action toggle.
      *
      * @param ActionEvent     $event
-     * @param                 $eventName
-     * @param EventDispatcher $dispatcher
      *
      * Fixme by DC General. By toggle action don´t dispatch DcGeneralEvents::VIEW event.
      */
-    public function validateToggleOperation(ActionEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function validateToggleOperation(ActionEvent $event)
     {
         if (!in_array($event->getAction()->getName(), array('toggle', 'feature'))) {
             return;
@@ -161,12 +159,10 @@ class ActionController implements EventSubscriberInterface
      * Validate the inverse toggle operation by action toggle.
      *
      * @param ActionEvent     $event
-     * @param                 $eventName
-     * @param EventDispatcher $dispatcher
      *
      * Fixme by DC General. By toggle action don´t dispatch DcGeneralEvents::VIEW event.
      */
-    public function validateInverseToggleOperation(ActionEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function validateInverseToggleOperation(ActionEvent $event)
     {
         if ($event->getAction()->getName() !== 'toggle') {
             return;
