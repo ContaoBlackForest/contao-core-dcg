@@ -38,10 +38,13 @@ class TableToGeneralService
             return null;
         }
 
-        /** @var AbstractService $controller */
-        $controller = $container[$serviceName];
+        /** @var AbstractService $service */
+        $service = $container[$serviceName];
+        if (false === $service->serviceIsActive()) {
+            return null;
+        }
 
-        return $controller;
+        return $service;
     }
 
 }

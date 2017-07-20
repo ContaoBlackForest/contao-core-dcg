@@ -30,11 +30,18 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 abstract class AbstractService implements ServiceInterface
 {
     /**
+     * The active state of this service.
+     *
+     * @var bool
+     */
+    protected $active = false;
+
+    /**
      * Initialize the contao core module to dc general
      *
      * @param $dataProvider | string the dca name (e.g. tl_article)
      *
-     * @return mixed
+     * @return void
      */
     public function initialize($dataProvider)
     {
@@ -71,7 +78,7 @@ abstract class AbstractService implements ServiceInterface
         }
 
         $this->replaceDataContainerDriver($dataProvider);
-        $this->setAsService($dataProvider);
+        $this->activateService($dataProvider);
         #$this->handleDataContainerConfigCallbacks($dataProvider);
     }
 
@@ -94,16 +101,28 @@ abstract class AbstractService implements ServiceInterface
      *
      * @param $dataProvider | string the data provider (e.g. tl_article)
      */
-    protected function setAsService($dataProvider)
+    protected function activateService($dataProvider)
     {
         global $container;
 
         $serviceName = 'dc-general.table_to_general.' . $dataProvider;
-        if (isset($container[$serviceName])) {
+        if (!isset($container[$serviceName])) {
             return;
         }
 
-        $container[$serviceName] = $this;
+        $service = $container[$serviceName];
+
+        $service->active = true;
+    }
+
+    /**
+     * Return is the service active.
+     *
+     * @return bool
+     */
+    public function serviceIsActive()
+    {
+        return $this->active;
     }
 
     /**
@@ -113,7 +132,8 @@ abstract class AbstractService implements ServiceInterface
      *
      * @see LegacyDcaDataDefinitionBuilder::253
      *
-     * Fixme by DC General. By some callbacks the model don´t available. e.g. tl_news => config => onsubmit_callback => adjustTime
+     * Fixme by DC General. By some callbacks the model don´t available. e.g. tl_news => config => onsubmit_callback =>
+     * adjustTime
      */
     protected function handleDataContainerConfigCallbacks($dataProvider)
     {
