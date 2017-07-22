@@ -23,6 +23,8 @@ use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Config\ConfigInterface;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use ContaoBlackForest\Contao\Core\DcGeneral\CbContaoCoreDcgBundle;
+use ContaoCommunityAlliance\DcGeneral\CcaDcGeneralBundle;
+use DependencyInjection\Container\CcaDependencyInjectionBundle;
 
 class Plugin implements BundlePluginInterface
 {
@@ -41,7 +43,9 @@ class Plugin implements BundlePluginInterface
                 ->setLoadAfter(
                     [
                         ContaoCoreBundle::class,
-                        ContaoManagerBundle::class
+                        ContaoManagerBundle::class,
+                        CcaDependencyInjectionBundle::class,
+                        CcaDcGeneralBundle::class
                     ]
                 )
         ];
