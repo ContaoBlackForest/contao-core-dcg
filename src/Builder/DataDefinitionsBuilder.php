@@ -60,7 +60,6 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
                 array('setChildCondition', 202),
                 array('setListLabelConfig', 202),
                 array('disableVersions', 201),
-                array('unsetParentTable', 200),
                 array('setIdParamToOperation', 200),
                 array('parseModelCommands'),
             ),
@@ -291,33 +290,6 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
 
         $editChildes = $modelCommands->getCommandNamed('editheader');
         $editChildes->setName('edit');
-    }
-
-    /**
-     * Unset the parent config. It conflict with breadcrumb.
-     *
-     * @see \Contao\Backend::548
-     *
-     * @param BuildDataDefinitionEvent $event
-     *
-     * Fixme by DC General. We must fix this by DC General, or is better use own breadcrumb e.g. MetaModels.
-     */
-    public function unsetParentTable(BuildDataDefinitionEvent $event)
-    {
-        global $container;
-
-        /** @var TableToGeneralService $service */
-        $service = $container['dc-general.table_to_general'];
-
-        $containerName = $event->getContainer()->getName();
-
-        if (!$controller = $service->getDataProviderController($containerName)) {
-            return;
-        }
-
-        if (isset($GLOBALS['TL_DCA'][$containerName]['config']['ptable'])) {
-            unset($GLOBALS['TL_DCA'][$containerName]['config']['ptable']);
-        }
     }
 
     /**
