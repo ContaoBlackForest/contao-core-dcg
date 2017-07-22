@@ -21,7 +21,7 @@ use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2Ba
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommand;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommandInterface;
 use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
-use ContaoCommunityAlliance\DcGeneral\Event\ViewEvent;
+use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use ContaoCommunityAlliance\DcGeneral\Factory\Event\BuildDataDefinitionEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -60,7 +60,6 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
                 array('setChildCondition', 202),
                 array('setListLabelConfig', 202),
                 array('disableVersions', 201),
-                array('unsetParentTable', 200),
                 array('setIdParamToOperation', 200),
                 array('parseModelCommands'),
             ),
@@ -301,35 +300,6 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
 
         $editChildes = $modelCommands->getCommandNamed('editheader');
         $editChildes->setName('edit');
-    }
-
-    /**
-     * Unset the parent config. It conflict with breadcrumb.
-     *
-     * @see \Contao\Backend::548
-     *
-     * @param BuildDataDefinitionEvent $event
-     * @param                          $eventName
-     * @param EventDispatcher          $dispatcher
-     *
-     * Fixme by DC General. We must fix this by DC General, or is better use own breadcrumb e.g. MetaModels.
-     */
-    public function unsetParentTable(BuildDataDefinitionEvent $event, $eventName, EventDispatcher $dispatcher)
-    {
-        global $container;
-
-        /** @var TableToGeneralService $service */
-        $service = $container['dc-general.table_to_general'];
-        
-        $containerName = $event->getContainer()->getName();
-
-        if (!$controller = $service->getDataProviderController($containerName)) {
-            return;
-        }
-
-        if (isset($GLOBALS['TL_DCA'][$containerName]['config']['ptable'])) {
-            unset($GLOBALS['TL_DCA'][$containerName]['config']['ptable']);
-        }
     }
 
     /**
