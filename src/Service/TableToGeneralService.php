@@ -14,6 +14,8 @@
 
 namespace ContaoBlackForest\Contao\Core\DcGeneral\Service;
 
+use Contao\Input;
+
 
 /**
  * Class TableToGeneralService
@@ -33,7 +35,7 @@ class TableToGeneralService
     {
         global $container;
 
-        $serviceName = 'dc-general.table_to_general.' . $containerName;
+        $serviceName = 'dc-general.table_to_general.' . Input::get('do'). '_' . $containerName;
         if (!isset($container[$serviceName])) {
             return null;
         }
