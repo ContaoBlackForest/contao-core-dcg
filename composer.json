@@ -37,8 +37,6 @@
     "phpcq/all-tasks": "~1.1",
     "contao/manager-bundle": "~4.4"
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "ContaoBlackForest\\Contao\\Core\\DcGeneral\\": "src/"
