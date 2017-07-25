@@ -33,9 +33,9 @@
     "contao-community-alliance/composer-plugin": "~2.4 | ~3.0",
     "contao-community-alliance/dc-general": "~2.0 | ~2.0@dev"
   },
-  "require-dev": {},
-  "minimum-stability": "dev",
-  "prefer-stable": true,
+  "require-dev": {
+    "phpcq/all-tasks": "~1.1"
+  },
   "autoload": {
     "psr-4": {
       "ContaoBlackForest\\Contao\\Core\\DcGeneral\\": "src/"
