@@ -20,8 +20,6 @@ $container['dc-general.table_to_general'] = function($container) {
     return new TableToGeneralService();
 };
 
-return;
-
 $container['dc-general.table_to_general.news_tl_news_archive'] = $container->share(
     function ($container) {
         return new NewsService();

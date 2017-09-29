@@ -22,6 +22,5 @@ return array(
     new ActionController(),
     new ModelController(),
     new DataDefinitionsBuilder(),
-    new PaletteController(),
     new WidgetController()
 );
