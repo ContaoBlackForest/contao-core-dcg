@@ -21,10 +21,6 @@ services:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Builder\DataDefinitionsBuilder
         tags:
             - { name: kernel.event_subscriber }
-#    cb.core_to_dcg.subscriber.paletten_controller:
-#        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\PaletteController
-#        tags:
-#            - { name: kernel.event_subscriber }
     cb.core_to_dcg.subscriber.widget_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\WidgetController
         tags:
