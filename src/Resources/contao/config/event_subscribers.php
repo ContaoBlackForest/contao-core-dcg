@@ -19,7 +19,6 @@ use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\PaletteController;
 use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\WidgetController;
 
 return array(
-    new ActionController(),
     new ModelController(),
     new DataDefinitionsBuilder(),
     new WidgetController()
