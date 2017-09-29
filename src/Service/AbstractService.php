@@ -105,7 +105,7 @@ abstract class AbstractService implements ServiceInterface
     {
         global $container;
 
-        $serviceName = 'dc-general.table_to_general.' . $dataProvider;
+        $serviceName = 'dc-general.table_to_general.' . Input::get('do'). '_' . $dataProvider;
         if (!isset($container[$serviceName])) {
             return;
         }
