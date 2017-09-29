@@ -77,8 +77,11 @@ abstract class AbstractService implements ServiceInterface
             return;
         }
 
+        if (!$this->activateService($dataProvider)) {
+            return;
+        }
+
         $this->replaceDataContainerDriver($dataProvider);
-        $this->activateService($dataProvider);
         #$this->handleDataContainerConfigCallbacks($dataProvider);
     }
 
@@ -100,6 +103,8 @@ abstract class AbstractService implements ServiceInterface
      * Set as service
      *
      * @param $dataProvider | string the data provider (e.g. tl_article)
+     *
+     * @return bool
      */
     protected function activateService($dataProvider)
     {
@@ -107,12 +112,14 @@ abstract class AbstractService implements ServiceInterface
 
         $serviceName = 'dc-general.table_to_general.' . Input::get('do'). '_' . $dataProvider;
         if (!isset($container[$serviceName])) {
-            return;
+            return false;
         }
 
         $service = $container[$serviceName];
 
         $service->active = true;
+
+        return true;
     }
 
     /**
