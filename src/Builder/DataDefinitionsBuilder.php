@@ -61,6 +61,7 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
                 array('setListLabelConfig', 202),
                 array('disableVersions', 201),
                 array('setIdParamToOperation', 200),
+                array('setParentTablePropertyToDcaConfig', 200),
                 array('parseModelCommands'),
             ),
 
@@ -270,6 +271,31 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
 
             $operation['idparam'] = 'pid';
         }
+    }
+
+    /**
+     * Set the the parent table property to the dca config.
+     *
+     * @param BuildDataDefinitionEvent $event
+     */
+    public function setParentTablePropertyToDcaConfig(BuildDataDefinitionEvent $event)
+    {
+        global $container;
+
+        /** @var TableToGeneralService $service */
+        $service = $container['dc-general.table_to_general'];
+
+        $containerName = $event->getContainer()->getName();
+
+        if (!$controller = $service->getDataProviderController($containerName)) {
+            return;
+        }
+
+        if (!isset($GLOBALS['TL_DCA'][$containerName]['fields']['ptable'])) {
+            return;
+        }
+
+        $GLOBALS['TL_DCA'][$containerName]['dca_config']['parent_table_property'] = 'ptable';
     }
 
     /**
