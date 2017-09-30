@@ -8,6 +8,8 @@ services:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsService
     dc-general.table_to_general.news_tl_content:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsService
+    dc-general.table_to_general.news_tl_news_feed:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsFeedService
 
     cb.core_to_dcg.subscriber.model_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController

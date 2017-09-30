@@ -12,12 +12,10 @@
  * @copyright Copyright 2016 ContaoBlackForest
  */
 
-
-use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
-
 /** @var \DependencyInjection\Container\PimpleGate $container */
 
 $container->provideSymfonyService('dc-general.table_to_general');
 $container->provideSymfonyService('dc-general.table_to_general.news_tl_news');
 $container->provideSymfonyService('dc-general.table_to_general.news_tl_news_archive');
 $container->provideSymfonyService('dc-general.table_to_general.news_tl_content');
+$container->provideSymfonyService('dc-general.table_to_general.news_tl_news_feed');
