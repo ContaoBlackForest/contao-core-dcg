@@ -11,6 +11,11 @@ services:
     dc-general.table_to_general.news_tl_news_feed:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsFeedService
 
+    dc-general.table_to_general.faq_tl_faq_category:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\FaqService
+    dc-general.table_to_general.faq_tl_faq:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\FaqService
+
     cb.core_to_dcg.subscriber.model_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
         tags:
