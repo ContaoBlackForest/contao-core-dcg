@@ -14,7 +14,7 @@
 
 
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsFeedService;
-use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 
 $container['dc-general.table_to_general'] = function($container) {
@@ -23,17 +23,17 @@ $container['dc-general.table_to_general'] = function($container) {
 
 $container['dc-general.table_to_general.news_tl_news_archive'] = $container->share(
     function ($container) {
-        return new NewsService();
+        return new NewsArchiveService();
     }
 );
 $container['dc-general.table_to_general.news_tl_news'] = $container->share(
     function ($container) {
-        return new NewsService();
+        return new NewsArchiveService();
     }
 );
 $container['dc-general.table_to_general.news_tl_content'] = $container->share(
     function ($container) {
-        return new NewsService();
+        return new NewsArchiveService();
     }
 );
 $container['dc-general.table_to_general.news_tl_news_feed'] = $container->share(
