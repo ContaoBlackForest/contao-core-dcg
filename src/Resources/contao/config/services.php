@@ -13,6 +13,7 @@
  */
 
 
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsFeedService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 
@@ -33,5 +34,10 @@ $container['dc-general.table_to_general.news_tl_news'] = $container->share(
 $container['dc-general.table_to_general.news_tl_content'] = $container->share(
     function ($container) {
         return new NewsService();
+    }
+);
+$container['dc-general.table_to_general.news_tl_news_feed'] = $container->share(
+    function ($container) {
+        return new NewsFeedService();
     }
 );
