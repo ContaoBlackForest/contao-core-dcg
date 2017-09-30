@@ -306,13 +306,13 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
      * Validate the header properties, if exists in parent property definition.
      * This is useful for dynamic table e.g. tl_content.
      *
-     * @param DcGeneralEvents|ViewEvent $event
+     * @param ActionEvent $event
      * @param                           $eventName
      * @param EventDispatcher           $dispatcher
      *
      * Fixme by DC General. Validate this by DC General.
      */
-    public function validateParentHeaderInformation(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function validateParentHeaderInformation(ActionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
         global $container;
 
@@ -354,11 +354,11 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
     /**
      * Toggle operation button
      *
-     * @param DcGeneralEvents|ViewEvent $event
+     * @param ActionEvent                 $event
      * @param                           $eventName
      * @param EventDispatcher           $dispatcher
      */
-    public function toggleOperationButton(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function toggleOperationButton(ActionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
         global $container;
 
@@ -444,11 +444,11 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
     /**
      * Inverse toggle operation button
      *
-     * @param DcGeneralEvents|ViewEvent $event
+     * @param ActionEvent $event
      * @param                           $eventName
      * @param EventDispatcher           $dispatcher
      */
-    public function inverseOperationButton(ViewEvent $event, $eventName, EventDispatcher $dispatcher)
+    public function inverseOperationButton(ActionEvent $event, $eventName, EventDispatcher $dispatcher)
     {
         global $container;
 
