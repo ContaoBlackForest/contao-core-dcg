@@ -115,6 +115,13 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
                 && isset($providers[$index - 1])
             ) {
                 $dataProviderConfig['parent'] = array('source' => $providers[$index - 1]);
+                unset($providers[$index - 1]);
+            }
+        }
+
+        if (!empty($providers)) {
+            foreach ($providers as $index => $provider) {
+                $dataProviderConfig[$provider] = array('source' => $provider);
             }
         }
 
@@ -166,15 +173,13 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
         if (empty($childCondition)
             && $reverseProviders[0] === $containerName
         ) {
-            $condition = $this->getChildCondition($reverseProviders[1], $reverseProviders[0]);
+            foreach ($reverseProviders as $reverseIndex => $reverseProvider) {
+                if ($reverseIndex + 1 === count($reverseProviders)) {
+                    break;
+                }
 
-            $condition['filter'][] = array(
-                'local'        => 'ptable',
-                'remote_value' => $reverseProviders[1],
-                'operation'    => '='
-            );
-
-            $childCondition[] = $condition;
+                $childCondition[] = $this->getChildCondition($reverseProviders[$reverseIndex + 1], $reverseProvider);
+            }
         }
 
         $GLOBALS['TL_DCA'][$containerName]['dca_config']['childCondition'] = $childCondition;
