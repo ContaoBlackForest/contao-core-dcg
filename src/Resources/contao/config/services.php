@@ -12,7 +12,6 @@
  * @copyright Copyright 2016 ContaoBlackForest
  */
 
-/** @var \DependencyInjection\Container\PimpleGate $container */
 
 $container->provideSymfonyService('dc-general.table_to_general');
 $container->provideSymfonyService('dc-general.table_to_general.news_tl_news');

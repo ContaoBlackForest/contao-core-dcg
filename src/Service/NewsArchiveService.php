@@ -15,11 +15,11 @@
 namespace ContaoBlackForest\Contao\Core\DcGeneral\Service;
 
 /**
- * Class NewsService
+ * Class NewsArchiveService
  *
  * @package ContaoBlackForest\Contao\Core\DcGeneral\Service
  */
-class NewsService extends AbstractService implements ServiceInterface
+class NewsArchiveService extends AbstractService
 {
     /**
      * {@inheritDoc}

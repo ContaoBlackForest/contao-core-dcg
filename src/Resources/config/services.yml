@@ -3,11 +3,11 @@ services:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService
 
     dc-general.table_to_general.news_tl_news:
-        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsService
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService
     dc-general.table_to_general.news_tl_news_archive:
-        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsService
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService
     dc-general.table_to_general.news_tl_content:
-        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsService
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService
     dc-general.table_to_general.news_tl_news_feed:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsFeedService
 
