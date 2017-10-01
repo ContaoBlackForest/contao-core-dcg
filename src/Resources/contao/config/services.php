@@ -19,9 +19,12 @@ $container->provideSymfonyService('dc-general.table_to_general.news_tl_news_arch
 $container->provideSymfonyService('dc-general.table_to_general.news_tl_content');
 $container->provideSymfonyService('dc-general.table_to_general.news_tl_news_feed');
 
-$container->provideSymfonyService('dc-general.table_to_general.faq_tl_faq_category');
-$container->provideSymfonyService('dc-general.table_to_general.faq_tl_faq');
 
 $container->provideSymfonyService('dc-general.table_to_general.newsletter_tl_newsletter_channel');
 $container->provideSymfonyService('dc-general.table_to_general.newsletter_tl_newsletter');
 $container->provideSymfonyService('dc-general.table_to_general.newsletter_tl_newsletter_recipients');
+
+$container->provideSymfonyService('dc-general.table_to_general.calendar_tl_calendar');
+$container->provideSymfonyService('dc-general.table_to_general.calendar_tl_calendar_events');
+$container->provideSymfonyService('dc-general.table_to_general.calendar_tl_content');
+$container->provideSymfonyService('dc-general.table_to_general.calendar_tl_calendar_feed');

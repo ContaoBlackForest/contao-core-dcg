@@ -23,6 +23,15 @@ services:
     dc-general.table_to_general.newsletter_tl_newsletter_recipients:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterRecipientsService
 
+    dc-general.table_to_general.calendar_tl_calendar:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarService
+    dc-general.table_to_general.calendar_tl_calendar_events:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarService
+    dc-general.table_to_general.calendar_tl_content:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarService
+    dc-general.table_to_general.calendar_tl_calendar_feed:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarFeedService
+
     cb.core_to_dcg.subscriber.model_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
         tags:
