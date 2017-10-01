@@ -16,6 +16,8 @@
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\FaqService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsFeedService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterRecipientsService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 
 $container['dc-general.table_to_general'] = function($container) {
@@ -51,5 +53,21 @@ $container['dc-general.table_to_general.faq_tl_faq_category'] = $container->shar
 $container['dc-general.table_to_general.faq_tl_faq'] = $container->share(
     function ($container) {
         return new FaqService();
+    }
+);
+
+$container['dc-general.table_to_general.newsletter_tl_newsletter_channel'] = $container->share(
+    function ($container) {
+        return new NewsletterService();
+    }
+);
+$container['dc-general.table_to_general.newsletter_tl_newsletter'] = $container->share(
+    function ($container) {
+        return new NewsletterService();
+    }
+);
+$container['dc-general.table_to_general.newsletter_tl_newsletter_recipients'] = $container->share(
+    function ($container) {
+        return new NewsletterRecipientsService();
     }
 );
