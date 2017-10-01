@@ -13,6 +13,8 @@
  */
 
 
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarFeedService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\FaqService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsFeedService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService;
@@ -69,5 +71,26 @@ $container['dc-general.table_to_general.newsletter_tl_newsletter'] = $container-
 $container['dc-general.table_to_general.newsletter_tl_newsletter_recipients'] = $container->share(
     function ($container) {
         return new NewsletterRecipientsService();
+    }
+);
+
+$container['dc-general.table_to_general.calendar_tl_calendar'] = $container->share(
+    function ($container) {
+        return new CalendarService();
+    }
+);
+$container['dc-general.table_to_general.calendar_tl_calendar_events'] = $container->share(
+    function ($container) {
+        return new CalendarService();
+    }
+);
+$container['dc-general.table_to_general.calendar_tl_content'] = $container->share(
+    function ($container) {
+        return new CalendarService();
+    }
+);
+$container['dc-general.table_to_general.calendar_tl_calendar_feed'] = $container->share(
+    function ($container) {
+        return new CalendarFeedService();
     }
 );
