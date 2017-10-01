@@ -16,6 +16,13 @@ services:
     dc-general.table_to_general.faq_tl_faq:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\FaqService
 
+    dc-general.table_to_general.newsletter_tl_newsletter_channel:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterService
+    dc-general.table_to_general.newsletter_tl_newsletter:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterService
+    dc-general.table_to_general.newsletter_tl_newsletter_recipients:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterRecipientsService
+
     cb.core_to_dcg.subscriber.model_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
         tags:
