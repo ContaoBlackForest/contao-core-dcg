@@ -31,3 +31,5 @@ $container->provideSymfonyService('dc-general.table_to_general.calendar_tl_calen
 
 $container->provideSymfonyService('dc-general.table_to_general.form_tl_form');
 $container->provideSymfonyService('dc-general.table_to_general.form_tl_form_field');
+
+$container->provideSymfonyService('dc-general.table_to_general.comments_tl_comments');

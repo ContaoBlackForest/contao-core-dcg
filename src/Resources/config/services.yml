@@ -37,6 +37,9 @@ services:
     dc-general.table_to_general.form_tl_form_field:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\FormService
 
+    dc-general.table_to_general.comments_tl_comments:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CommentsService
+
     cb.core_to_dcg.subscriber.model_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
         tags:
