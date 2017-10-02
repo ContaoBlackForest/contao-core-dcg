@@ -32,6 +32,11 @@ services:
     dc-general.table_to_general.calendar_tl_calendar_feed:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarFeedService
 
+    dc-general.table_to_general.form_tl_form:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\FormService
+    dc-general.table_to_general.form_tl_form_field:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\FormService
+
     cb.core_to_dcg.subscriber.model_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
         tags:
@@ -42,5 +47,9 @@ services:
             - { name: kernel.event_subscriber }
     cb.core_to_dcg.subscriber.widget_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\WidgetController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.form_field_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\FormFieldController
         tags:
             - { name: kernel.event_subscriber }

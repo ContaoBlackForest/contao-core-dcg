@@ -28,3 +28,6 @@ $container->provideSymfonyService('dc-general.table_to_general.calendar_tl_calen
 $container->provideSymfonyService('dc-general.table_to_general.calendar_tl_calendar_events');
 $container->provideSymfonyService('dc-general.table_to_general.calendar_tl_content');
 $container->provideSymfonyService('dc-general.table_to_general.calendar_tl_calendar_feed');
+
+$container->provideSymfonyService('dc-general.table_to_general.form_tl_form');
+$container->provideSymfonyService('dc-general.table_to_general.form_tl_form_field');
