@@ -24,3 +24,6 @@ $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Co
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarFeedService', 'initialize');
 
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\Service\FormService', 'initialize');
+
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\Service\CommentsService', 'initialize');
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\Callback\CommentsCallback', 'initialize');
