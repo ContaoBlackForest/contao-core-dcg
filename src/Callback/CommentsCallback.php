@@ -47,7 +47,9 @@ class CommentsCallback
         /** @var TableToGeneralService $service */
         $service = $container['dc-general.table_to_general'];
 
-        if (!$controller = $service->getDataProviderController('tl_comments')) {
+        if (!($controller = $service->getDataProviderController('tl_comments'))
+            || !in_array($dataProvider, $controller->getPermittedDataProvider())
+        ) {
             return;
         }
 
