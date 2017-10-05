@@ -15,6 +15,7 @@
 namespace ContaoBlackForest\Contao\Core\DcGeneral\Service;
 
 use Contao\Input;
+use Contao\Message;
 use Contao\System;
 use ContaoCommunityAlliance\DcGeneral\Contao\Compatibility\DcCompat;
 use ContaoCommunityAlliance\DcGeneral\Data\DefaultModel;
@@ -83,6 +84,8 @@ abstract class AbstractService implements ServiceInterface
 
         $this->replaceDataContainerDriver($dataProvider);
         #$this->handleDataContainerConfigCallbacks($dataProvider);
+
+        Message::addInfo("The table '$dataProvider' run with dc-general");
     }
 
     /**
