@@ -33,3 +33,11 @@ $container->provideSymfonyService('dc-general.table_to_general.form_tl_form');
 $container->provideSymfonyService('dc-general.table_to_general.form_tl_form_field');
 
 $container->provideSymfonyService('dc-general.table_to_general.comments_tl_comments');
+
+$container->provideSymfonyService('dc-general.table_to_general.themes_tl_theme');
+$container->provideSymfonyService('dc-general.table_to_general.themes_tl_module');
+$container->provideSymfonyService('dc-general.table_to_general.themes_tl_style_sheet');
+$container->provideSymfonyService('dc-general.table_to_general.themes_tl_style');
+$container->provideSymfonyService('dc-general.table_to_general.themes_tl_layout');
+$container->provideSymfonyService('dc-general.table_to_general.themes_tl_image_size');
+$container->provideSymfonyService('dc-general.table_to_general.themes_tl_image_size_item');

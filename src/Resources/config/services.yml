@@ -40,6 +40,19 @@ services:
     dc-general.table_to_general.comments_tl_comments:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CommentsService
 
+    dc-general.table_to_general.themes_tl_theme:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\ThemeService
+    dc-general.table_to_general.themes_tl_module:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\ModuleService
+    dc-general.table_to_general.themes_tl_style_sheet:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\StyleSheetService
+    dc-general.table_to_general.themes_tl_style:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\StyleSheetService
+    dc-general.table_to_general.themes_tl_image_size:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\ImageSizeService
+    dc-general.table_to_general.themes_tl_image_size_item:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\ImageSizeService
+
     cb.core_to_dcg.subscriber.model_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
         tags:
@@ -54,5 +67,9 @@ services:
             - { name: kernel.event_subscriber }
     cb.core_to_dcg.subscriber.form_field_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\FormFieldController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.module_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
         tags:
             - { name: kernel.event_subscriber }
