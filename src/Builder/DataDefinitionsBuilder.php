@@ -20,6 +20,7 @@ use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2Ba
 use ContaoCommunityAlliance\DcGeneral\Contao\DataDefinition\Definition\Contao2BackendViewDefinitionInterface;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommand;
 use ContaoCommunityAlliance\DcGeneral\DataDefinition\Definition\View\ToggleCommandInterface;
+use ContaoCommunityAlliance\DcGeneral\DataDefinition\Palette\Property;
 use ContaoCommunityAlliance\DcGeneral\DcGeneralEvents;
 use ContaoCommunityAlliance\DcGeneral\Event\ActionEvent;
 use ContaoCommunityAlliance\DcGeneral\Factory\Event\BuildDataDefinitionEvent;
@@ -63,6 +64,7 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
                 array('setIdParamToOperation', 200),
                 array('setParentTablePropertyToDcaConfig', 200),
                 array('parseModelCommands'),
+                array('registerOrderPropertyToPalette'),
             ),
 
             DcGeneralEvents::ACTION => array(
@@ -111,6 +113,7 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
             }
 
             $dataProviderConfig[$providerSection] = array('source' => $provider);
+            unset($providers[$index]);
 
             if ($provider === $containerName
                 && isset($providers[$index - 1])
@@ -321,6 +324,58 @@ class DataDefinitionsBuilder implements EventSubscriberInterface
 
         $editChildes = $modelCommands->getCommandNamed('editheader');
         $editChildes->setName('edit');
+    }
+
+    /**
+     * Register the order property in same palette of his linked property.
+     *
+     * @param BuildDataDefinitionEvent $event The event.
+     *
+     * @return void
+     */
+    public function registerOrderPropertyToPalette(BuildDataDefinitionEvent $event)
+    {
+        /** @var TableToGeneralService $service */
+        $service = $GLOBALS['container']['dc-general.table_to_general'];
+
+        $container = $event->getContainer();
+
+        if (!$controller = $service->getDataProviderController($container->getName())) {
+            return;
+        }
+
+        $properties = $container->getPropertiesDefinition();
+
+        foreach ($properties as $property) {
+            $extra = $property->getExtra();
+            if (!isset($extra['orderField'])
+                || !$properties->hasProperty($extra['orderField'])
+            ) {
+                continue;
+            }
+
+            $orderProperty = $properties->getProperty($extra['orderField']);
+            if (null === $orderProperty->getWidgetType()) {
+                continue;
+            }
+
+            foreach ($container->getPalettesDefinition()->getPalettes() as $palette) {
+                foreach ($palette->getLegends() as $legend) {
+                    if (!$legend->hasProperty($property->getName())
+                        || $legend->hasProperty($orderProperty->getName())
+                    ) {
+                        continue;
+                    }
+
+                    $paletteProperty      = $legend->getProperty($property->getName());
+                    $paletteOrderProperty = new Property($orderProperty->getName());
+                    $legend->addProperty($paletteOrderProperty);
+
+                    $paletteOrderProperty->setEditableCondition($paletteProperty->getEditableCondition());
+                    $paletteOrderProperty->setVisibleCondition($paletteProperty->getVisibleCondition());
+                }
+            }
+        }
     }
 
     /**
