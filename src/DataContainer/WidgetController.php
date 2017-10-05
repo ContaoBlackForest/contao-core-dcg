@@ -82,7 +82,7 @@ class WidgetController implements EventSubscriberInterface
         }
 
         $property = $dataDefinition->getPropertiesDefinition()->getProperty($event->getPropertyName());
-        if ($property->getWidgetType() !== 'select'
+        if (!in_array($property->getWidgetType() ,array('select', 'checkboxWizard'))
             || $event->getOptions()
             || !array_key_exists(
                 'foreignKey',

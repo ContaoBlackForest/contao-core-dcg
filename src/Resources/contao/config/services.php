@@ -18,11 +18,16 @@ use ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\CommentsService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\FaqService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\FormService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\ImageSizeService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\LayoutService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\ModuleService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsFeedService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterRecipientsService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\StyleSheetService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\ThemeService;
 
 $container['dc-general.table_to_general'] = function($container) {
     return new TableToGeneralService();
@@ -111,5 +116,41 @@ $container['dc-general.table_to_general.form_tl_form_field'] = $container->share
 $container['dc-general.table_to_general.comments_tl_comments'] = $container->share(
     function ($container) {
         return new CommentsService();
+    }
+);
+
+$container['dc-general.table_to_general.themes_tl_theme'] = $container->share(
+    function ($container) {
+        return new ThemeService();
+    }
+);
+$container['dc-general.table_to_general.themes_tl_module'] = $container->share(
+    function ($container) {
+        return new ModuleService();
+    }
+);
+$container['dc-general.table_to_general.themes_tl_layout'] = $container->share(
+    function ($container) {
+        return new LayoutService();
+    }
+);
+$container['dc-general.table_to_general.themes_tl_style_sheet'] = $container->share(
+    function ($container) {
+        return new StyleSheetService();
+    }
+);
+$container['dc-general.table_to_general.themes_tl_style'] = $container->share(
+    function ($container) {
+        return new StyleSheetService();
+    }
+);
+$container['dc-general.table_to_general.themes_tl_image_size'] = $container->share(
+    function ($container) {
+        return new ImageSizeService();
+    }
+);
+$container['dc-general.table_to_general.themes_tl_image_size_item'] = $container->share(
+    function ($container) {
+        return new ImageSizeService();
     }
 );
