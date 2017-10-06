@@ -53,6 +53,11 @@ services:
     dc-general.table_to_general.themes_tl_image_size_item:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\ImageSizeService
 
+    dc-general.table_to_general.member_tl_member:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\MemberService
+    dc-general.table_to_general.mgroup_tl_member_group:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\MemberGroupService
+
     cb.core_to_dcg.subscriber.model_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
         tags:
@@ -71,5 +76,9 @@ services:
             - { name: kernel.event_subscriber }
     cb.core_to_dcg.subscriber.module_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.member_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\MemberController
         tags:
             - { name: kernel.event_subscriber }

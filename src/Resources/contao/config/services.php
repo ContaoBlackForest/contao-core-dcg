@@ -41,3 +41,6 @@ $container->provideSymfonyService('dc-general.table_to_general.themes_tl_style')
 $container->provideSymfonyService('dc-general.table_to_general.themes_tl_layout');
 $container->provideSymfonyService('dc-general.table_to_general.themes_tl_image_size');
 $container->provideSymfonyService('dc-general.table_to_general.themes_tl_image_size_item');
+
+$container->provideSymfonyService('dc-general.table_to_general.member_tl_member');
+$container->provideSymfonyService('dc-general.table_to_general.mgroup_tl_member_group');
