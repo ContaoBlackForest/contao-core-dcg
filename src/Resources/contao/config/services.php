@@ -20,6 +20,8 @@ use ContaoBlackForest\Contao\Core\DcGeneral\Service\FaqService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\FormService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\ImageSizeService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\LayoutService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\MemberGroupService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\MemberService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\ModuleService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsFeedService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService;
@@ -152,5 +154,16 @@ $container['dc-general.table_to_general.themes_tl_image_size'] = $container->sha
 $container['dc-general.table_to_general.themes_tl_image_size_item'] = $container->share(
     function ($container) {
         return new ImageSizeService();
+    }
+);
+
+$container['dc-general.table_to_general.member_tl_member'] = $container->share(
+    function ($container) {
+        return new MemberService();
+    }
+);
+$container['dc-general.table_to_general.mgroup_tl_member_group'] = $container->share(
+    function ($container) {
+        return new MemberGroupService();
     }
 );

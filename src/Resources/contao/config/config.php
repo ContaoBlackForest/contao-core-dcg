@@ -34,3 +34,6 @@ $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Co
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\Service\LayoutService', 'initialize');
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\Service\StyleSheetService', 'initialize');
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\Service\ImageSizeService', 'initialize');
+
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\Service\MemberService', 'initialize');
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('ContaoBlackForest\Contao\Core\DcGeneral\Service\MemberGroupService', 'initialize');

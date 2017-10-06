@@ -13,11 +13,10 @@
  */
 
 use ContaoBlackForest\Contao\Core\DcGeneral\Builder\DataDefinitionsBuilder;
-use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ActionController;
 use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\FormFieldController;
+use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\MemberController;
 use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController;
 use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModuleController;
-use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\PaletteController;
 use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\WidgetController;
 
 return array(
@@ -25,5 +24,6 @@ return array(
     new DataDefinitionsBuilder(),
     new WidgetController(),
     new FormFieldController(),
-    new ModuleController()
+    new ModuleController(),
+    new MemberController()
 );
