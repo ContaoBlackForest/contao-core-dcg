@@ -44,3 +44,6 @@ $container->provideSymfonyService('dc-general.table_to_general.themes_tl_image_s
 
 $container->provideSymfonyService('dc-general.table_to_general.member_tl_member');
 $container->provideSymfonyService('dc-general.table_to_general.mgroup_tl_member_group');
+
+$container->provideSymfonyService('dc-general.table_to_general.user_tl_user');
+$container->provideSymfonyService('dc-general.table_to_general.group_tl_user_group');

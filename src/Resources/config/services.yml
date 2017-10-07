@@ -58,6 +58,11 @@ services:
     dc-general.table_to_general.mgroup_tl_member_group:
         class: ContaoBlackForest\Contao\Core\DcGeneral\Service\MemberGroupService
 
+    dc-general.table_to_general.user_tl_user:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\UserService
+    dc-general.table_to_general.group_tl_user_group:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\UserGroupService
+
     cb.core_to_dcg.subscriber.model_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
         tags:
@@ -80,5 +85,9 @@ services:
             - { name: kernel.event_subscriber }
     cb.core_to_dcg.subscriber.member_controller:
         class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\MemberController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.user_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\UserController
         tags:
             - { name: kernel.event_subscriber }
