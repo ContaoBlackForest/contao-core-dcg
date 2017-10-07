@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+    <file datatype="php" original="system/modules/core-dcg/languages/en/tl_settings.php" source-language="en">
+        <body>
+            <trans-unit id="tl_settings.core_to_dcg_legend">
+                <source>Core driver to Dc General settings</source>
+            </trans-unit>
+            <trans-unit id="tl_settings.coreToDcgDebugMode.0">
+                <source>Debug mode</source>
+            </trans-unit>
+            <trans-unit id="tl_settings.coreToDcgDebugMode.1">
+                <source>Activate debug mode. It will then output as information which driver is currently working with
+                    the dc general.
+                </source>
+            </trans-unit>
+            <trans-unit id="tl_settings.coreToDcgActivation.0">
+                <source>Activate</source>
+            </trans-unit>
+            <trans-unit id="tl_settings.coreToDcgActivation.1">
+                <source>Here the modules that should work with the dc general are activated.</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

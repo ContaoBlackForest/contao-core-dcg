@@ -14,6 +14,7 @@
 
 namespace ContaoBlackForest\Contao\Core\DcGeneral\Service;
 
+use Contao\Config;
 use Contao\Input;
 use Contao\Message;
 use Contao\System;
@@ -85,7 +86,9 @@ abstract class AbstractService implements ServiceInterface
         $this->replaceDataContainerDriver($dataProvider);
         #$this->handleDataContainerConfigCallbacks($dataProvider);
 
-        Message::addInfo("The table '$dataProvider' run with dc-general");
+        if (Config::get('coreToDcgDebugMode')) {
+            Message::addInfo("The table '$dataProvider' run with dc-general");
+        }
     }
 
     /**
@@ -113,8 +116,13 @@ abstract class AbstractService implements ServiceInterface
     {
         global $container;
 
-        $serviceName = 'dc-general.table_to_general.' . Input::get('do'). '_' . $dataProvider;
-        if (!isset($container[$serviceName])) {
+        $configuration = unserialize(Config::get('coreToDcgActivation'));
+
+        $serviceName = 'dc-general.table_to_general.' . Input::get('do') . '_' . $dataProvider;
+        if (false === $configuration
+            || !in_array(Input::get('do'), $configuration)
+            || !isset($container[$serviceName])
+        ) {
             return false;
         }
 
