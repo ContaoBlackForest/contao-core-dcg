@@ -30,6 +30,8 @@ use ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\StyleSheetService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService;
 use ContaoBlackForest\Contao\Core\DcGeneral\Service\ThemeService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\UserGroupService;
+use ContaoBlackForest\Contao\Core\DcGeneral\Service\UserService;
 
 $container['dc-general.table_to_general'] = function($container) {
     return new TableToGeneralService();
@@ -165,5 +167,16 @@ $container['dc-general.table_to_general.member_tl_member'] = $container->share(
 $container['dc-general.table_to_general.mgroup_tl_member_group'] = $container->share(
     function ($container) {
         return new MemberGroupService();
+    }
+);
+
+$container['dc-general.table_to_general.user_tl_user'] = $container->share(
+    function ($container) {
+        return new UserService();
+    }
+);
+$container['dc-general.table_to_general.group_tl_user_group'] = $container->share(
+    function ($container) {
+        return new UserGroupService();
     }
 );

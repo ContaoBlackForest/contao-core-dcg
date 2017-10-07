@@ -17,6 +17,7 @@ use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\FormFieldController;
 use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\MemberController;
 use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController;
 use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModuleController;
+use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\UserController;
 use ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\WidgetController;
 
 return array(
@@ -25,5 +26,6 @@ return array(
     new WidgetController(),
     new FormFieldController(),
     new ModuleController(),
-    new MemberController()
+    new MemberController(),
+    new UserController()
 );
