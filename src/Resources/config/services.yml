@@ -80,7 +80,7 @@ services:
         tags:
             - { name: kernel.event_subscriber }
     cb.core_to_dcg.subscriber.module_controller:
-        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModuleController
         tags:
             - { name: kernel.event_subscriber }
     cb.core_to_dcg.subscriber.member_controller:
