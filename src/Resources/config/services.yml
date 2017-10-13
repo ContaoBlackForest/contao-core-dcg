@@ -1,0 +1,93 @@
+services:
+    dc-general.table_to_general:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\TableToGeneralService
+
+    dc-general.table_to_general.news_tl_news:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService
+    dc-general.table_to_general.news_tl_news_archive:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService
+    dc-general.table_to_general.news_tl_content:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsArchiveService
+    dc-general.table_to_general.news_tl_news_feed:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsFeedService
+
+    dc-general.table_to_general.faq_tl_faq_category:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\FaqService
+    dc-general.table_to_general.faq_tl_faq:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\FaqService
+
+    dc-general.table_to_general.newsletter_tl_newsletter_channel:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterService
+    dc-general.table_to_general.newsletter_tl_newsletter:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterService
+    dc-general.table_to_general.newsletter_tl_newsletter_recipients:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\NewsletterRecipientsService
+
+    dc-general.table_to_general.calendar_tl_calendar:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarService
+    dc-general.table_to_general.calendar_tl_calendar_events:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarService
+    dc-general.table_to_general.calendar_tl_content:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarService
+    dc-general.table_to_general.calendar_tl_calendar_feed:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CalendarFeedService
+
+    dc-general.table_to_general.form_tl_form:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\FormService
+    dc-general.table_to_general.form_tl_form_field:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\FormService
+
+    dc-general.table_to_general.comments_tl_comments:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\CommentsService
+
+    dc-general.table_to_general.themes_tl_theme:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\ThemeService
+    dc-general.table_to_general.themes_tl_module:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\ModuleService
+    dc-general.table_to_general.themes_tl_style_sheet:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\StyleSheetService
+    dc-general.table_to_general.themes_tl_style:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\StyleSheetService
+    dc-general.table_to_general.themes_tl_image_size:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\ImageSizeService
+    dc-general.table_to_general.themes_tl_image_size_item:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\ImageSizeService
+
+    dc-general.table_to_general.member_tl_member:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\MemberService
+    dc-general.table_to_general.mgroup_tl_member_group:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\MemberGroupService
+
+    dc-general.table_to_general.user_tl_user:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\UserService
+    dc-general.table_to_general.group_tl_user_group:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Service\UserGroupService
+
+    cb.core_to_dcg.subscriber.model_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModelController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.data_definitions_builder:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\Builder\DataDefinitionsBuilder
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.widget_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\WidgetController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.form_field_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\FormFieldController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.module_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\ModuleController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.member_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\MemberController
+        tags:
+            - { name: kernel.event_subscriber }
+    cb.core_to_dcg.subscriber.user_controller:
+        class: ContaoBlackForest\Contao\Core\DcGeneral\DataContainer\UserController
+        tags:
+            - { name: kernel.event_subscriber }
